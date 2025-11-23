@@ -17,19 +17,13 @@ repos:
       - id: mixed-line-ending
         args: ['--fix=lf']
 
-  # Black formatter
-  - repo: https://github.com/psf/black
-    rev: 23.12.1
-    hooks:
-      - id: black
-        args: ['--line-length=100']
-
-  # Ruff linter (fast Python linter)
+  # Ruff linter and formatter (fast Python linter and formatter)
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.1.9
     hooks:
       - id: ruff
         args: ['--fix']
+      - id: ruff-format
 
   # MyPy type checking
   - repo: https://github.com/pre-commit/mirrors-mypy

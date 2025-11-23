@@ -6,9 +6,7 @@ This document explains how to set up and use git hooks for automated code qualit
 
 The project uses [pre-commit](https://pre-commit.com/) to manage git hooks that automatically check code quality before commits. The hooks include:
 
-- **Black**: Automatic code formatting
-- **Ruff**: Fast Python linting
-- **Pylint**: Additional code quality checks
+- **Ruff**: Fast Python linting and code formatting
 - **MyPy**: Static type checking
 - **Interrogate**: Docstring coverage checking
 - **Standard checks**: Trailing whitespace, file endings, YAML/TOML validation, etc.
@@ -20,10 +18,14 @@ The project uses [pre-commit](https://pre-commit.com/) to manage git hooks that 
 First, install the package with development dependencies:
 
 ```bash
+# Using uv (recommended)
+uv pip install -e ".[dev]"
+
+# Or using pip
 pip install -e ".[dev]"
 ```
 
-This installs `pre-commit`, `pylint`, `black`, `ruff`, `mypy`, and other dev tools.
+This installs `pre-commit`, `ruff`, `mypy`, `interrogate`, and other dev tools.
 
 ### 2. Install Git Hooks
 
@@ -56,11 +58,10 @@ git commit -m "feat: add new metric"
 
 The hooks will:
 1. Check for common issues (trailing whitespace, file endings, etc.)
-2. Format code with Black
-3. Lint code with Ruff (and auto-fix issues)
-4. Check code quality with Pylint
-5. Type-check with MyPy
-6. Check docstring coverage with Interrogate
+2. Lint code with Ruff (and auto-fix issues)
+3. Format code with Ruff
+4. Type-check with MyPy
+5. Check docstring coverage with Interrogate
 
 If any hook fails, the commit is aborted and you'll see error messages.
 
@@ -73,9 +74,9 @@ Run hooks manually on all files:
 pre-commit run --all-files
 
 # Run specific hook on all files
-pre-commit run black --all-files
-pre-commit run pylint --all-files
-pre-commit run mypy --all-files
+pre-commit run ruff --all-files         # Lint
+pre-commit run ruff-format --all-files  # Format
+pre-commit run mypy --all-files         # Type check
 
 # Run hooks on specific files
 pre-commit run --files src/vla_metrics/task_performance/success_rate.py
@@ -90,61 +91,33 @@ In rare cases, you may need to skip hooks:
 git commit --no-verify -m "message"
 
 # Set SKIP environment variable to skip specific hooks
-SKIP=pylint git commit -m "message"
+SKIP=mypy git commit -m "message"
 ```
 
 **Note**: Only skip hooks when absolutely necessary. Code should pass all checks before merging.
 
 ## Hook Details
 
-### Black - Code Formatter
+### Ruff - Linter and Formatter
 
-**What it does**: Automatically formats Python code to ensure consistent style.
+**What it does**: Fast Python linter and code formatter that replaces Black, Flake8, isort, and more. Checks for code quality issues, common bugs, and automatically formats code to ensure consistent style.
 
-**Configuration**: `pyproject.toml` → `[tool.black]`
+**Configuration**: `pyproject.toml` → `[tool.ruff]` and `[tool.ruff.format]`
 - Line length: 100 characters
-- Target versions: Python 3.8+
-
-**Example**:
-```bash
-# Run manually
-black src/ tests/ examples/
-
-# Check without modifying
-black --check src/
-```
-
-### Ruff - Fast Linter
-
-**What it does**: Checks for code quality issues and common bugs. Much faster than flake8/pylint for basic checks.
-
-**Configuration**: `pyproject.toml` → `[tool.ruff]`
 - Enabled rules: E (errors), F (pyflakes), I (imports), N (naming), W (warnings), B (bugbear), C4 (comprehensions), UP (pyupgrade)
+- Format style: Double quotes, space indentation
 
 **Example**:
 ```bash
-# Run manually
-ruff src/ tests/ examples/
+# Lint and auto-fix issues
+ruff check src/ tests/ examples/
+ruff check --fix src/
 
-# Auto-fix issues
-ruff --fix src/
-```
+# Format code
+ruff format src/ tests/ examples/
 
-### Pylint - Code Quality Checker
-
-**What it does**: Performs thorough code quality analysis, checking for bugs, code smells, and style issues.
-
-**Configuration**: `pyproject.toml` → `[tool.pylint.*]`
-- Max line length: 100
-- Disabled checks: Missing docstrings (handled by interrogate), too-few-public-methods, protected-access
-
-**Example**:
-```bash
-# Run manually
-pylint src/vla_metrics/
-
-# Run on specific file
-pylint src/vla_metrics/task_performance/success_rate.py
+# Check formatting without modifying
+ruff format --check src/
 ```
 
 ### MyPy - Type Checker
@@ -152,7 +125,7 @@ pylint src/vla_metrics/task_performance/success_rate.py
 **What it does**: Verifies type hints and catches type-related bugs.
 
 **Configuration**: `pyproject.toml` → `[tool.mypy]`
-- Target: Python 3.8
+- Target: Python 3.9+
 - Requires type hints for all functions
 
 **Example**:
@@ -220,11 +193,11 @@ If a hook fails:
 
 ### Slow Hook Performance
 
-Some hooks (especially pylint and mypy) can be slow on large changes:
+MyPy can be slow on large changes:
 
 - **Run incrementally**: Commit smaller changes more frequently
 - **Cache**: Pre-commit caches results; subsequent runs are faster
-- **Skip temporarily**: Use `SKIP=pylint,mypy git commit -m "message"` for work-in-progress commits, but fix before pushing
+- **Skip temporarily**: Use `SKIP=mypy git commit -m "message"` for work-in-progress commits, but fix before pushing
 
 ### Type Checking Errors
 
@@ -254,7 +227,7 @@ The same hooks run in CI/CD pipelines to ensure code quality. Local hooks help c
 ## Configuration Files
 
 - **`.pre-commit-config.yaml`**: Hook configuration and versions
-- **`pyproject.toml`**: Tool-specific configurations (black, ruff, pylint, mypy, interrogate)
+- **`pyproject.toml`**: Tool-specific configurations (ruff, mypy, interrogate)
 - **`.git/hooks/pre-commit`**: Auto-generated hook script (don't edit manually)
 
 ## Best Practices
@@ -269,7 +242,6 @@ The same hooks run in CI/CD pipelines to ensure code quality. Local hooks help c
 ## Additional Resources
 
 - [Pre-commit documentation](https://pre-commit.com/)
-- [Black documentation](https://black.readthedocs.io/)
 - [Ruff documentation](https://docs.astral.sh/ruff/)
-- [Pylint documentation](https://pylint.pycqa.org/)
 - [MyPy documentation](https://mypy.readthedocs.io/)
+- [Interrogate documentation](https://interrogate.readthedocs.io/)

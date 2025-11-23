@@ -243,9 +243,9 @@ Pre-commit hooks automatically run code quality checks before each commit:
 pre-commit run --all-files
 
 # Run specific hooks
-pre-commit run black --all-files   # Format code
-pre-commit run ruff --all-files    # Lint code
-pre-commit run mypy --all-files    # Type checking
+pre-commit run ruff --all-files         # Lint code
+pre-commit run ruff-format --all-files  # Format code
+pre-commit run mypy --all-files         # Type checking
 
 # Or run individual tools directly
 ruff check src/ tests/ examples/   # Lint
@@ -254,10 +254,10 @@ mypy src/                          # Type check
 ```
 
 **What runs on commit:**
-- Code formatting (Black)
+- Code formatting (Ruff)
 - Linting (Ruff)
 - Type checking (Mypy)
-- Import sorting
+- Import sorting (Ruff)
 - YAML/TOML validation
 - Trailing whitespace removal
 

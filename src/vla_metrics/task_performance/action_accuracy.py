@@ -104,9 +104,7 @@ class ActionAccuracy(Metric):
             self.add_state("total_actions", default=torch.tensor(0.0), dist_reduce_fx="sum")
             self.add_state("total_action_count", default=torch.tensor(0.0), dist_reduce_fx="sum")
 
-    def update(
-        self, predictions: Tensor, targets: Tensor
-    ) -> None:  # pylint: disable=arguments-differ
+    def update(self, predictions: Tensor, targets: Tensor) -> None:  # pylint: disable=arguments-differ
         """Update metric state with predicted and target actions.
 
         Args:
@@ -176,8 +174,7 @@ class ActionAccuracy(Metric):
                 # Compute variance from accumulated statistics
                 # Var(X) = E[X²] - E[X]²
                 mean_squared = (
-                    self.total_squared_actions
-                    / self.total_action_count  # pylint: disable=no-member
+                    self.total_squared_actions / self.total_action_count  # pylint: disable=no-member
                 )
                 mean = self.total_actions / self.total_action_count  # pylint: disable=no-member
                 variance = mean_squared - mean**2

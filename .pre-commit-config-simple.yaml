@@ -13,16 +13,10 @@ repos:
       - id: check-toml
       - id: check-added-large-files
 
-  # Black formatter
-  - repo: https://github.com/psf/black
-    rev: 23.12.1
-    hooks:
-      - id: black
-        args: ['--line-length=100']
-
-  # Ruff linter (fast!)
+  # Ruff linter and formatter (fast!)
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.1.9
     hooks:
       - id: ruff
-        args: ['--fix', '--exit-non-zero-on-fix']
+        args: ['--fix']
+      - id: ruff-format

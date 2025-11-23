@@ -48,7 +48,7 @@ def main() -> None:
         metric.update(episode)
         completed = episode.sum().item()
         total = len(episode)
-        print(f"Episode {i}: {completed}/{total} completed ({completed/total:.1%})")
+        print(f"Episode {i}: {completed}/{total} completed ({completed / total:.1%})")
 
     overall_tcr = metric.compute()
     print(f"\nOverall Task Completion Rate: {overall_tcr:.2%}")

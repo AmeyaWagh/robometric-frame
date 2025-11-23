@@ -22,10 +22,15 @@ TorchMetrics-based evaluation metrics for Vision-Language-Action (VLA) models in
 # Install from source
 git clone https://github.com/ameyawagh/vla-metrics.git
 cd vla-metrics
-pip install -e .
 
-# Install with development dependencies
-pip install -e ".[dev]"
+# Using uv (recommended - faster)
+uv venv
+source .venv/bin/activate  # On macOS/Linux
+# .venv\Scripts\activate   # On Windows
+uv pip install -e .
+
+# Or using pip
+pip install -e .
 ```
 
 ## Quick Start
@@ -201,15 +206,20 @@ trainer = Trainer(
 git clone https://github.com/ameyawagh/vla-metrics.git
 cd vla-metrics
 
-# Option 1: Quick setup with script (recommended)
-bash scripts/setup_dev.sh
+# Using uv (recommended - faster)
+uv venv
+source .venv/bin/activate
+uv pip install -e ".[dev]"
+pre-commit install
 
-# Option 2: Manual setup
+# Or using pip
+python -m venv .venv
+source .venv/bin/activate
 pip install -e ".[dev]"
 pre-commit install
 ```
 
-The setup script installs dependencies and configures git hooks for automatic code quality checks. See [docs/SETUP_HOOKS.md](docs/SETUP_HOOKS.md) for details.
+This installs all development dependencies and configures git hooks for automatic code quality checks on commit.
 
 ### Running Tests
 
@@ -226,24 +236,30 @@ pytest tests/test_success_rate.py -v
 
 ### Code Quality
 
-Git hooks automatically run code quality checks before each commit. To run manually:
+Pre-commit hooks automatically run code quality checks before each commit:
 
 ```bash
-# Run all pre-commit hooks
+# Run all pre-commit hooks manually
 pre-commit run --all-files
 
-# Run individual tools
-black src/ tests/ examples/      # Format code
-ruff src/ tests/ examples/        # Lint code
-pylint src/vla_metrics/           # Additional linting
-mypy src/                         # Type checking
-interrogate src/                  # Docstring coverage
+# Run specific hooks
+pre-commit run black --all-files   # Format code
+pre-commit run ruff --all-files    # Lint code
+pre-commit run mypy --all-files    # Type checking
 
-# Run all quality checks
-black src/ tests/ examples/ && ruff src/ tests/ examples/ && mypy src/
+# Or run individual tools directly
+ruff check src/ tests/ examples/   # Lint
+ruff format src/ tests/ examples/  # Format
+mypy src/                          # Type check
 ```
 
-See [docs/SETUP_HOOKS.md](docs/SETUP_HOOKS.md) for comprehensive git hooks documentation.
+**What runs on commit:**
+- Code formatting (Black)
+- Linting (Ruff)
+- Type checking (Mypy)
+- Import sorting
+- YAML/TOML validation
+- Trailing whitespace removal
 
 ## Project Structure
 
@@ -263,9 +279,10 @@ vla-metrics/
 │   └── README.md
 ├── docs/                     # Documentation
 │   └── metrics.md
+├── .github/workflows/        # CI/CD
+│   └── ci.yml
 ├── pyproject.toml           # Project configuration
-├── setup.py                 # Setup script
-└── README.md               # This file
+└── README.md                # This file
 ```
 
 ## Roadmap
@@ -282,7 +299,11 @@ See [docs/metrics.md](docs/metrics.md) for detailed metric descriptions and form
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on:
+- Setting up your development environment
+- Branching strategy
+- Testing requirements
+- Submitting pull requests
 
 ## License
 

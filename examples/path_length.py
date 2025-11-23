@@ -43,6 +43,46 @@ def main() -> None:
     print(f"Direct diagonal: {length_diag:.4f} units")
     print(f"Efficiency gain: {((length_l - length_diag) / length_l * 100):.1f}% shorter")
 
+    # Example 2b: Batched trajectories (B, L, D)
+    print("\nExample 2b: Batched Processing - Shape (B, L, D)")
+    print("-" * 60)
+    metric_batch = PathLength()
+
+    # Process multiple trajectories at once
+    batch = torch.tensor(
+        [
+            [[0.0, 0.0], [1.0, 0.0], [2.0, 0.0]],  # Trajectory 1: straight, length 2.0
+            [[0.0, 0.0], [0.0, 1.0], [0.0, 2.0]],  # Trajectory 2: straight, length 2.0
+            [[0.0, 0.0], [1.0, 1.0], [2.0, 2.0]],  # Trajectory 3: diagonal, length ~2.83
+        ]
+    )
+
+    print(
+        f"Batch shape: {batch.shape} (B={batch.shape[0]}, L={batch.shape[1]}, D={batch.shape[2]})"
+    )
+    metric_batch.update(batch)
+    avg_length = metric_batch.compute()
+    print(f"Average path length across batch: {avg_length:.4f} units")
+
+    # Example 2c: Temporal batched trajectories (B, T, L, D)
+    print("\nExample 2c: Temporal Batched Processing - Shape (B, T, L, D)")
+    print("-" * 60)
+    metric_temporal = PathLength()
+
+    # Batch of temporal sequences (e.g., multiple rollouts with temporal steps)
+    # B=2 robots, T=3 timesteps, L=4 waypoints each, D=2 dimensions
+    temporal_batch = torch.randn(2, 3, 4, 2).abs()  # Random positive trajectories
+
+    print(
+        f"Temporal batch shape: {temporal_batch.shape} "
+        f"(B={temporal_batch.shape[0]}, T={temporal_batch.shape[1]}, "
+        f"L={temporal_batch.shape[2]}, D={temporal_batch.shape[3]})"
+    )
+    print(f"Total trajectories: {temporal_batch.shape[0] * temporal_batch.shape[1]}")
+    metric_temporal.update(temporal_batch)
+    avg_temporal_length = metric_temporal.compute()
+    print(f"Average path length: {avg_temporal_length:.4f} units")
+
     # Example 3: 3D robotic arm trajectory
     print("\nExample 3: 3D Robotic Arm Trajectory")
     print("-" * 60)
@@ -175,6 +215,10 @@ def main() -> None:
     print("  - Shorter paths generally indicate more efficient execution")
     print("  - Compare paths for the same task to evaluate optimization")
     print("  - Works with any dimensionality (2D, 3D, higher)")
+    print("  - Supports batched processing: (..., L, D)")
+    print("    * (L, D): Single trajectory")
+    print("    * (B, L, D): Batch of trajectories")
+    print("    * (B, T, L, D): Temporal batches")
     print("  - Use reset() between different evaluation phases")
     print("  - Average multiple attempts to account for variability")
     print("=" * 60)

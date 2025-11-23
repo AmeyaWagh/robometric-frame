@@ -48,13 +48,14 @@ class PathLength(Metric):
         >>> metric.compute()
         tensor(4.0000)
 
-    Example (batch):
-        >>> # Process multiple trajectories
+    Example (batched):
+        >>> # Batch of trajectories - shape (B, L, D)
         >>> metric = PathLength()
-        >>> traj1 = torch.tensor([[0.0, 0.0], [1.0, 0.0], [2.0, 0.0]])
-        >>> traj2 = torch.tensor([[0.0, 0.0], [0.0, 1.0], [0.0, 2.0]])
-        >>> metric.update(traj1)
-        >>> metric.update(traj2)
+        >>> batch = torch.tensor([
+        ...     [[0.0, 0.0], [1.0, 0.0], [2.0, 0.0]],  # trajectory 1
+        ...     [[0.0, 0.0], [0.0, 1.0], [0.0, 2.0]]   # trajectory 2
+        ... ])
+        >>> metric.update(batch)
         >>> metric.compute()  # Average of 2.0 and 2.0
         tensor(2.0000)
 
@@ -103,40 +104,58 @@ class PathLength(Metric):
         self.add_state("num_trajectories", default=torch.tensor(0), dist_reduce_fx="sum")
 
     def update(self, trajectory: Tensor) -> None:  # pylint: disable=arguments-differ
-        """Update metric state with a new trajectory.
+        """Update metric state with new trajectory or batch of trajectories.
 
         Args:
-            trajectory: Tensor of shape (L, D) where L is the number of points
-                and D is the spatial dimensionality (e.g., 2 for 2D, 3 for 3D).
-                Points should be ordered chronologically along the trajectory.
+            trajectory: Tensor of shape (..., L, D) where:
+                - ... represents any number of batch dimensions (can be empty)
+                - L is the number of points (must be >= 2)
+                - D is the spatial dimensionality (e.g., 2 for 2D, 3 for 3D)
+
+                Examples of valid shapes:
+                - (L, D): Single trajectory
+                - (B, L, D): Batch of B trajectories
+                - (B, T, L, D): Batch of B sequences with T timesteps each
+
+                Points should be ordered chronologically along the L dimension.
 
         Raises:
-            ValueError: If trajectory has invalid shape or is empty.
+            ValueError: If trajectory has invalid shape or insufficient points.
         """
-        if trajectory.ndim != 2:
+        if trajectory.ndim < 2:
             raise ValueError(
-                f"Trajectory must be 2D tensor of shape (L, D), got shape {trajectory.shape}"
+                f"Trajectory must have at least 2 dimensions (..., L, D), "
+                f"got {trajectory.ndim}D tensor with shape {trajectory.shape}"
             )
 
-        num_points = trajectory.shape[0]
+        num_points = trajectory.shape[-2]  # L is the second-to-last dimension
         if num_points < 2:
-            raise ValueError(f"Trajectory must have at least 2 points, got {num_points} point(s)")
+            raise ValueError(
+                f"Trajectory must have at least 2 points along dimension -2, "
+                f"got {num_points} point(s)"
+            )
 
         # Convert to float for numerical operations
         trajectory = trajectory.float()
 
-        # Calculate differences between consecutive points
-        deltas = trajectory[1:] - trajectory[:-1]  # Shape: (L-1, D)
+        # Calculate differences between consecutive points along the L dimension
+        # Shape: (..., L-1, D)
+        deltas = trajectory[..., 1:, :] - trajectory[..., :-1, :]
 
-        # Calculate Euclidean distances (L2 norm)
-        distances = torch.norm(deltas, p=2, dim=1)  # Shape: (L-1,)
+        # Calculate Euclidean distances (L2 norm) along the D dimension
+        # Shape: (..., L-1)
+        distances = torch.norm(deltas, p=2, dim=-1)
 
-        # Sum to get total path length
-        path_length = distances.sum()
+        # Sum along the L-1 dimension to get path lengths for each trajectory
+        # Shape: (...)
+        path_lengths = distances.sum(dim=-1)
+
+        # Count total number of trajectories (product of all batch dimensions)
+        num_trajectories = path_lengths.numel()
 
         # Update states
-        self.total_path_length += path_length  # pylint: disable=no-member
-        self.num_trajectories += 1  # pylint: disable=no-member
+        self.total_path_length += path_lengths.sum()  # pylint: disable=no-member
+        self.num_trajectories += num_trajectories  # pylint: disable=no-member
 
     def compute(self) -> Tensor:
         """Compute the average Path Length across all trajectories.

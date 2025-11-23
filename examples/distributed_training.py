@@ -1,6 +1,7 @@
 """Example of using SuccessRate in distributed training context."""
 
 import torch
+
 from vla_metrics import SuccessRate
 
 

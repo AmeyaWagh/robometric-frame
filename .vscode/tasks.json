@@ -70,19 +70,6 @@
       "problemMatcher": []
     },
     {
-      "label": "Lint (Pylint)",
-      "type": "shell",
-      "command": "source .venv/bin/activate && pylint src/vla_metrics/",
-      "group": "build",
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": false,
-        "panel": "shared"
-      },
-      "problemMatcher": []
-    },
-    {
       "label": "Pre-commit All Files",
       "type": "shell",
       "command": "source .venv/bin/activate && pre-commit run --all-files",

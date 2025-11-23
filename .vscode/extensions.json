@@ -8,8 +8,7 @@
     "ms-python.black-formatter",
     "charliermarsh.ruff",
 
-    // Linters
-    "ms-python.pylint",
+    // Type checking
     "ms-python.mypy-type-checker",
 
     // Testing

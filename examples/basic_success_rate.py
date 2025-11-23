@@ -1,6 +1,7 @@
 """Basic example of using SuccessRate metric."""
 
 import torch
+
 from vla_metrics import SuccessRate
 
 

@@ -29,24 +29,7 @@ repos:
     rev: v0.1.9
     hooks:
       - id: ruff
-        args: ['--fix', '--exit-non-zero-on-fix']
-
-  # Pylint
-  - repo: https://github.com/pycqa/pylint
-    rev: v3.0.3
-    hooks:
-      - id: pylint
-        args:
-          - --max-line-length=100
-          - --disable=C0114,C0115,C0116  # Missing docstrings (handled by ruff)
-          - --disable=R0903  # Too few public methods
-          - --disable=W0212  # Access to protected member
-          - --good-names=i,j,k,x,y,z,t,sr,cr,op,rf,il,ct,mu,pl,ps,cc,lr,fp,fn,tp,tn
-        exclude: ^tests/
-        additional_dependencies:
-          - torch
-          - torchmetrics
-          - numpy
+        args: ['--fix']
 
   # MyPy type checking
   - repo: https://github.com/pre-commit/mirrors-mypy

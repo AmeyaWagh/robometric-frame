@@ -34,15 +34,11 @@ jobs:
         source .venv/bin/activate
         uv pip install -e ".[dev]"
 
-    - name: Run code formatting check (Black)
-      run: |
-        source .venv/bin/activate
-        black --check --diff src/ tests/ examples/
-
-    - name: Run linting (Ruff)
+    - name: Run linting and formatting check (Ruff)
       run: |
         source .venv/bin/activate
         ruff check src/ tests/ examples/
+        ruff format --check src/ tests/ examples/
 
     - name: Run type checking (Mypy)
       run: |

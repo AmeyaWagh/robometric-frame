@@ -39,7 +39,6 @@ dev = [
     "ruff>=0.1.0",
     "mypy>=1.0.0",
     "pre-commit>=3.0.0",
-    "pylint>=3.0.0",
     "interrogate>=1.5.0",
 ]
 docs = [
@@ -71,28 +70,24 @@ target-version = ["py39", "py310", "py311"]
 line-length = 100
 target-version = "py39"
 
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "W", "B", "C4", "UP"]
 ignore = []
+
+[tool.ruff.lint.isort]
+known-first-party = ["vla_metrics"]
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
 
 [tool.mypy]
 python_version = "3.9"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
-
-[tool.pylint.main]
-max-line-length = 100
-good-names = ["i", "j", "k", "x", "y", "z", "t", "sr", "cr", "op", "rf", "il", "ct", "mu", "pl", "ps", "cc", "lr", "fp", "fn", "tp", "tn"]
-
-[tool.pylint.messages_control]
-disable = [
-    "C0114",  # missing-module-docstring (handled by ruff)
-    "C0115",  # missing-class-docstring (handled by ruff)
-    "C0116",  # missing-function-docstring (handled by ruff)
-    "R0903",  # too-few-public-methods
-    "W0212",  # protected-access
-]
 
 [tool.interrogate]
 ignore-init-method = true

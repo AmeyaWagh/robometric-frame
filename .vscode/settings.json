@@ -25,13 +25,6 @@
   ],
   "ruff.organizeImports": true,
 
-  // Pylint settings
-  "pylint.args": [
-    "--max-line-length=100",
-    "--disable=C0114,C0115,C0116,R0903,W0212",
-    "--good-names=i,j,k,x,y,z,t,sr,cr,op,rf,il,ct,mu,pl,ps,cc,lr,fp,fn,tp,tn"
-  ],
-
   // Mypy settings
   "mypy-type-checker.args": [
     "--ignore-missing-imports",
@@ -40,7 +33,6 @@
 
   // Python linting
   "python.linting.enabled": true,
-  "python.linting.pylintEnabled": true,
   "python.linting.mypyEnabled": true,
 
   // Testing

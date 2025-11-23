@@ -74,7 +74,7 @@ pre-commit install
 All dependencies are defined in `pyproject.toml`:
 
 - **Core**: torch>=1.10.0, torchmetrics>=0.11.0, numpy>=1.20.0
-- **Dev**: pytest>=7.0.0, pytest-cov>=4.0.0, black>=22.0.0, ruff>=0.1.0, mypy>=1.0.0, pre-commit>=3.0.0, pylint>=3.0.0, interrogate>=1.5.0
+- **Dev**: pytest>=7.0.0, pytest-cov>=4.0.0, black>=22.0.0, ruff>=0.1.0, mypy>=1.0.0, pre-commit>=3.0.0, interrogate>=1.5.0
 
 ### VS Code Setup
 
@@ -85,12 +85,11 @@ The project includes VS Code configuration for a consistent development experien
 - Pylance (ms-python.vscode-pylance)
 - Black Formatter (ms-python.black-formatter)
 - Ruff (charliermarsh.ruff)
-- Pylint (ms-python.pylint)
 - Mypy Type Checker (ms-python.mypy-type-checker)
 
 **Features:**
 - Auto-formatting with Black on save (100 char line length)
-- Linting with Ruff, Pylint, and Mypy
+- Linting with Ruff and type checking with Mypy
 - Integrated testing with pytest
 - Debug configurations for examples and tests
 - Pre-configured tasks (Cmd/Ctrl+Shift+P → "Tasks: Run Task")
@@ -136,15 +135,14 @@ pre-commit run --all-files
 
 # Run specific hooks
 pre-commit run black --all-files
-pre-commit run pylint --all-files
+pre-commit run ruff --all-files
 pre-commit run mypy --all-files
 
 # Run individual tools directly
 black src/ tests/ examples/      # Format code
-ruff src/ tests/ examples/        # Lint code
-pylint src/vla_metrics/           # Additional linting
-mypy src/                         # Type checking
-interrogate src/                  # Docstring coverage
+ruff check src/ tests/ examples/ # Lint code
+mypy src/                        # Type checking
+interrogate src/                 # Docstring coverage
 
 # Update pre-commit hooks
 pre-commit autoupdate

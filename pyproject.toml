@@ -55,6 +55,9 @@ Issues = "https://github.com/ameyawagh/vla-metrics/issues"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+vla_metrics = ["py.typed"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]

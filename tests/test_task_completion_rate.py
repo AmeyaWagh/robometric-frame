@@ -2,6 +2,7 @@
 
 import pytest
 import torch
+
 from vla_metrics.task_performance.task_completion_rate import TaskCompletionRate
 
 

@@ -115,7 +115,7 @@ class PathLength(Metric):
                 Examples of valid shapes:
                 - (L, D): Single trajectory
                 - (B, L, D): Batch of B trajectories
-                - (B, T, L, D): Batch of B sequences with T timesteps each
+                - (B, T, L, D): Batch of B sequences with T slices each
 
                 Points should be ordered chronologically along the L dimension.
 

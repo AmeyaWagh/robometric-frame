@@ -20,10 +20,10 @@ from torchmetrics import Metric
 
 
 class PathSmoothness(Metric):
-    """Compute Path Smoothness for VLA trajectory evaluation.
+    r"""Compute Path Smoothness for VLA trajectory evaluation.
 
     Path Smoothness is calculated as:
-        PS = (1/PL) * Σ(i=1 to L-2) ||(p_{i+2} - p_{i+1}) - (p_{i+1} - p_i)||_2
+        PS = (1/PL) * Σ(i=1 to L-2) \|(p_{i+2} - p_{i+1}) - (p_{i+1} - p_i)\|_2
 
     where p_i are trajectory points in D-dimensional space, L is the length of
     the trajectory, and PL is the path length. This metric measures the rate of

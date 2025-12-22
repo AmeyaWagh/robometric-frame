@@ -17,10 +17,10 @@ from torchmetrics import Metric
 
 
 class PathLength(Metric):
-    """Compute Path Length for VLA trajectory evaluation.
+    r"""Compute Path Length for VLA trajectory evaluation.
 
     Path Length is calculated as:
-        PL = Σ(i=1 to L-1) ||p_{i+1} - p_i||_2
+        PL = Σ(i=1 to L-1) \|p_{i+1} - p_i\|_2
 
     where p_i are trajectory points in D-dimensional space and L is the length
     of the trajectory. Shorter paths generally indicate more efficient task

@@ -19,12 +19,12 @@ from torchmetrics import Metric
 
 
 class CurvatureChange(Metric):
-    """Compute Curvature Change for VLA trajectory evaluation.
+    r"""Compute Curvature Change for VLA trajectory evaluation.
 
     Curvature Change is calculated as:
-        CC = (1/(L-2)) * Σ(i=1 to L-2) |κ_{i+1} - κ_i|
+        CC = (1/(L-2)) * Σ(i=1 to L-2) \|κ_{i+1} - κ_i\|
 
-    where κ_i = (θ_{i+1} - θ_i) / ||p_{i+1} - p_i||_2
+    where κ_i = (θ_{i+1} - θ_i) / \|p_{i+1} - p_i\|_2
 
     Here, p_i are trajectory positions, θ_i are orientations (heading angles),
     and κ_i is the curvature at segment i. Unlike path smoothness, this metric

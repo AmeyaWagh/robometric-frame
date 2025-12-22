@@ -19,7 +19,7 @@ from torchmetrics import Metric
 
 
 class ActionAccuracy(Metric):
-    """Compute Action Accuracy metrics (MSE, AMSE, NAMSE) for VLA evaluation.
+    r"""Compute Action Accuracy metrics (MSE, AMSE, NAMSE) for VLA evaluation.
 
     This metric computes three related measures of action prediction accuracy:
     - MSE: Mean Squared Error per trajectory
@@ -27,7 +27,7 @@ class ActionAccuracy(Metric):
     - NAMSE: Normalized AMSE (scaled by action variance)
 
     Formulas:
-        MSE = (1/T) * sum_{t=1}^{T} ||a_t - â_t||_2^2
+        MSE = (1/T) * sum_{t=1}^{T} \|a_t - â_t\|_2^2
         AMSE = (1/K) * sum_{k=1}^{K} MSE_k
         NAMSE = AMSE / σ²_action
 

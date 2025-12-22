@@ -21,10 +21,10 @@ from torchmetrics import Metric
 
 
 class AbsoluteTrajectoryError(Metric):
-    """Compute Absolute Trajectory Error (ATE) for VLA trajectory evaluation.
+    r"""Compute Absolute Trajectory Error (ATE) for VLA trajectory evaluation.
 
     ATE is calculated as:
-        ATE = (1/L) * Σ(i=1 to L) ||p_i - p_i*||_2
+        ATE = (1/L) * Σ(i=1 to L) \|p_i - p_i*\|_2
 
     where p_i are predicted trajectory points, p_i* are reference (ground truth)
     trajectory points, and L is the trajectory length. ATE evaluates global

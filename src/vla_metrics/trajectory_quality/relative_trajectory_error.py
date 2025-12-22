@@ -21,10 +21,10 @@ from torchmetrics import Metric
 
 
 class RelativeTrajectoryError(Metric):
-    """Compute Relative Trajectory Error (RTE) for VLA trajectory evaluation.
+    r"""Compute Relative Trajectory Error (RTE) for VLA trajectory evaluation.
 
     RTE is calculated as:
-        RTE = (1/(L-Δ)) * Σ(i=1 to L-Δ) ||(p_{i+Δ} - p_i) - (p_{i+Δ}* - p_i*)||_2
+        RTE = (1/(L-Δ)) * Σ(i=1 to L-Δ) \|(p_{i+Δ} - p_i) - (p_{i+Δ}* - p_i*)\|_2
 
     where p_i are predicted trajectory points, p_i* are reference (ground truth)
     trajectory points, L is the trajectory length, and Δ (delta) is the step size

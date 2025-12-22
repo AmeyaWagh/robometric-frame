@@ -78,6 +78,9 @@ myst_enable_extensions = [
     "html_image",
 ]
 
+# Suppress warnings for missing cross-references in included markdown files
+suppress_warnings = ["myst.xref_missing"]
+
 # Templates
 templates_path = ["_templates"]
 

@@ -37,55 +37,45 @@ pip install -e .
 
 ```python
 import torch
-from vla_metrics import SuccessRate
+from vla_metrics import SuccessRate, PathLength, ActionAccuracy
 
-# Initialize metric
+# Task Performance: Success Rate
 metric = SuccessRate()
-
-# Evaluate task outcomes (1 = success, 0 = failure)
 task_results = torch.tensor([1, 1, 0, 1, 0, 0, 1])
 metric.update(task_results)
+print(f"Success Rate: {metric.compute():.2%}")  # 57.14%
 
-# Compute success rate
-success_rate = metric.compute()
-print(f"Success Rate: {success_rate:.2%}")  # Success Rate: 57.14%
+# Trajectory Quality: Path Length
+metric = PathLength()
+trajectory = torch.tensor([[0., 0.], [1., 0.], [1., 1.], [2., 1.]])
+metric.update(trajectory)
+print(f"Path Length: {metric.compute():.2f}")  # 3.00
+
+# Task Performance: Action Accuracy
+metric = ActionAccuracy()
+predicted = torch.randn(10, 7)  # (timesteps, action_dim)
+ground_truth = torch.randn(10, 7)
+metric.update(predicted, ground_truth)
+print(f"AMSE: {metric.compute():.4f}")
 ```
 
-## Metrics
+## Available Metrics
 
-### Task Performance Metrics
+### Task Performance
 
-#### Success Rate (SR)
+- **SuccessRate** - Percentage of successfully completed tasks
+- **TaskCompletionRate** - Multi-step task sequence completion
+- **ActionAccuracy** - MSE, AMSE, NAMSE for action prediction accuracy
 
-Measures the percentage of successfully completed tasks:
+### Trajectory Quality
 
-```
-SR = N_success / N_total
-```
+- **PathLength** - Total distance traveled in a trajectory
+- **PathSmoothness** - Rate of change in trajectory direction
+- **CurvatureChange** - Smoothness accounting for robot orientation
+- **AbsoluteTrajectoryError (ATE)** - Global trajectory consistency
+- **RelativeTrajectoryError (RTE)** - Local trajectory accuracy
 
-**Usage:**
-
-```python
-from vla_metrics import SuccessRate
-
-# Binary indicators
-metric = SuccessRate()
-success = torch.tensor([1, 1, 0, 1, 0])
-metric.update(success)
-print(metric.compute())  # tensor(0.6000)
-
-# Continuous scores with threshold
-metric = SuccessRate(threshold=0.8)
-scores = torch.tensor([0.9, 0.7, 0.85, 0.6])
-metric.update(scores)
-print(metric.compute())  # tensor(0.5000)
-```
-
-**Parameters:**
-- `threshold` (float, optional): Threshold for continuous scores. Default: None
-- `ignore_index` (int, optional): Value to ignore. Default: None
-
-**Reference:** Brohan et al., "RT-1: Robotics transformer for real-world control at scale," arXiv:2212.06817, 2022.
+See [docs/metrics.md](docs/metrics.md) for detailed formulas and references.
 
 ## Features
 
@@ -260,42 +250,6 @@ mypy src/                          # Type check
 - Import sorting (Ruff)
 - YAML/TOML validation
 - Trailing whitespace removal
-
-## Project Structure
-
-```
-vla-metrics/
-├── src/vla_metrics/          # Source code
-│   ├── __init__.py
-│   └── task_performance/     # Task performance metrics
-│       ├── __init__.py
-│       └── success_rate.py
-├── tests/                    # Test suite
-│   ├── __init__.py
-│   └── test_success_rate.py
-├── examples/                 # Usage examples
-│   ├── basic_success_rate.py
-│   ├── distributed_training.py
-│   └── README.md
-├── docs/                     # Documentation
-│   └── metrics.md
-├── .github/workflows/        # CI/CD
-│   └── ci.yml
-├── pyproject.toml           # Project configuration
-└── README.md                # This file
-```
-
-## Roadmap
-
-### Upcoming Metrics
-
-- **Task Performance**: Task Completion Rate, Action Accuracy (MSE/AMSE/NAMSE)
-- **Trajectory Quality**: Path Length, Path Smoothness, Curvature Change, Trajectory Errors
-- **Vision-Language Alignment**: BLEU, CIDEr, METEOR, IoU, CLIP Score
-- **Safety & Robustness**: Collision Rate, Obstacle Proximity, Risk Factor
-- **Efficiency**: Inference Latency, Computation Time, Memory Usage
-
-See [docs/metrics.md](docs/metrics.md) for detailed metric descriptions and formulations.
 
 ## Contributing
 

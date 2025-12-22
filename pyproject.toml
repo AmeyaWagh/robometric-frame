@@ -8,11 +8,16 @@ version = "0.1.0"
 description = "TorchMetrics-based evaluation metrics for Vision-Language-Action (VLA) models in robotics"
 readme = "README.md"
 requires-python = ">=3.9"
-license = {text = "MIT"}
-authors = [
-    {name = "Ameya Wagh", email = "ameya@example.com"}
+license = { text = "MIT" }
+authors = [{ name = "Ameya Wagh", email = "ameyawagh@ieee.org" }]
+keywords = [
+    "robotics",
+    "vla",
+    "metrics",
+    "evaluation",
+    "vision-language-action",
+    "torchmetrics",
 ]
-keywords = ["robotics", "vla", "metrics", "evaluation", "vision-language-action", "torchmetrics"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
@@ -25,11 +30,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 
-dependencies = [
-    "torch>=1.10.0",
-    "torchmetrics>=0.11.0",
-    "numpy>=1.20.0",
-]
+dependencies = ["torch>=1.10.0", "torchmetrics>=0.11.0", "numpy>=1.20.0"]
 
 [project.optional-dependencies]
 dev = [
@@ -81,7 +82,13 @@ ignore = []
 
 [tool.ruff.lint.isort]
 known-first-party = ["vla_metrics"]
-section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+section-order = [
+    "future",
+    "standard-library",
+    "third-party",
+    "first-party",
+    "local-folder",
+]
 
 [tool.mypy]
 python_version = "3.9"

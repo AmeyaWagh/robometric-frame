@@ -13,12 +13,24 @@ except Exception:
     # Fallback for development/editable installs
     __version__ = "0.1.0"
 
+from vla_metrics.efficiency import InferenceLatency
 from vla_metrics.task_performance import ActionAccuracy, SuccessRate, TaskCompletionRate
-from vla_metrics.trajectory_quality import PathLength
+from vla_metrics.trajectory_quality import (
+    AbsoluteTrajectoryError,
+    CurvatureChange,
+    PathLength,
+    PathSmoothness,
+    RelativeTrajectoryError,
+)
 
 __all__ = [
+    "AbsoluteTrajectoryError",
     "ActionAccuracy",
+    "CurvatureChange",
+    "InferenceLatency",
     "PathLength",
+    "PathSmoothness",
+    "RelativeTrajectoryError",
     "SuccessRate",
     "TaskCompletionRate",
 ]

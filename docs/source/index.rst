@@ -19,6 +19,7 @@ API Reference
 
    vla_metrics.task_performance
    vla_metrics.trajectory_quality
+   vla_metrics.efficiency
 
 Development & Contributing
 ===========================

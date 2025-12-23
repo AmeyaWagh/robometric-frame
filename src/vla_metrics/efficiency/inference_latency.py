@@ -280,3 +280,18 @@ class InferenceLatency(Metric):
                 stats[key] = torch.quantile(all_latencies, p)
 
         return stats
+
+    def reset(self) -> None:
+        """Reset the metric state.
+
+        This method resets all metric states to their default values and clears
+        any internal timing state.
+
+        Example:
+            >>> metric = InferenceLatency()
+            >>> metric.update(torch.tensor([0.1, 0.2]))
+            >>> metric.reset()
+            >>> # Metric is now ready for new measurements
+        """
+        super().reset()
+        self._start_time = None

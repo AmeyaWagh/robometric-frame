@@ -288,3 +288,18 @@ class MemoryUsage(Metric):
                 stats[key] = torch.quantile(all_readings, p)
 
         return stats
+
+    def reset(self) -> None:
+        """Reset the metric state.
+
+        This method resets all metric states to their default values and clears
+        any internal tracking state.
+
+        Example:
+            >>> metric = MemoryUsage()
+            >>> metric.update(torch.tensor([100.0, 200.0]))
+            >>> metric.reset()
+            >>> # Metric is now ready for new measurements
+        """
+        super().reset()
+        self._tracking = False

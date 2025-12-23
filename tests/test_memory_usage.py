@@ -86,6 +86,25 @@ class TestMemoryUsage:
         assert torch.isclose(result["peak_mb"], torch.tensor(400.0), atol=1e-6)
         assert result["count"] == 2
 
+    def test_reset_clears_internal_state(self) -> None:
+        """Test that reset clears internal tracking state."""
+        metric = MemoryUsage()
+
+        # Start tracking but don't stop
+        metric.start()
+        assert metric._tracking is True
+
+        # Reset should clear the internal state
+        metric.reset()
+        assert metric._tracking is False
+
+        # Should be able to start a new measurement after reset
+        metric.start()
+        metric.stop()
+
+        result = metric.compute()
+        assert result["count"] == 1
+
     def test_negative_memory_error(self) -> None:
         """Test that negative memory values raise an error."""
         metric = MemoryUsage()

@@ -88,6 +88,26 @@ class TestInferenceLatency:
         assert torch.isclose(result["max"], torch.tensor(0.4), atol=1e-6)
         assert result["count"] == 2
 
+    def test_reset_clears_internal_state(self) -> None:
+        """Test that reset clears internal timing state."""
+        metric = InferenceLatency()
+
+        # Start timing but don't stop
+        metric.start()
+        assert metric._start_time is not None
+
+        # Reset should clear the internal state
+        metric.reset()
+        assert metric._start_time is None
+
+        # Should be able to start a new measurement after reset
+        metric.start()
+        time.sleep(0.01)
+        metric.stop()
+
+        result = metric.compute()
+        assert result["count"] == 1
+
     def test_negative_latency_error(self) -> None:
         """Test that negative latency values raise an error."""
         metric = InferenceLatency()

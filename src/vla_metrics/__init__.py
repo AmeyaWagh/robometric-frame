@@ -14,6 +14,7 @@ except Exception:
     __version__ = "0.1.0"
 
 from vla_metrics.efficiency import InferenceLatency, MemoryUsage
+from vla_metrics.safety import CollisionRate, ObstacleProximity, RiskFactor
 from vla_metrics.task_performance import ActionAccuracy, SuccessRate, TaskCompletionRate
 from vla_metrics.trajectory_quality import (
     AbsoluteTrajectoryError,
@@ -26,12 +27,15 @@ from vla_metrics.trajectory_quality import (
 __all__ = [
     "AbsoluteTrajectoryError",
     "ActionAccuracy",
+    "CollisionRate",
     "CurvatureChange",
     "InferenceLatency",
     "MemoryUsage",
+    "ObstacleProximity",
     "PathLength",
     "PathSmoothness",
     "RelativeTrajectoryError",
+    "RiskFactor",
     "SuccessRate",
     "TaskCompletionRate",
 ]

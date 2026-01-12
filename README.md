@@ -209,7 +209,7 @@ pip install -e ".[dev]"
 pre-commit install
 ```
 
-This installs all development dependencies and configures git hooks for automatic code quality checks on commit.
+This installs all development dependencies (including documentation tools) and configures git hooks for automatic code quality checks on commit.
 
 ### Running Tests
 
@@ -250,6 +250,57 @@ mypy src/                          # Type check
 - Import sorting (Ruff)
 - YAML/TOML validation
 - Trailing whitespace removal
+
+### Building Documentation
+
+The project uses [Sphinx](https://www.sphinx-doc.org/) to generate API documentation. Documentation dependencies are included in the `[dev]` extras, so no additional installation is needed.
+
+```bash
+# Navigate to docs directory
+cd docs
+
+# Build HTML documentation
+make html
+
+# The generated documentation will be in docs/build/html/
+# Open it in your browser
+open build/html/index.html  # macOS
+# xdg-open build/html/index.html  # Linux
+# start build/html/index.html  # Windows
+```
+
+#### Live Documentation Server
+
+For development with auto-reload (rebuilds automatically when files change):
+
+```bash
+cd docs
+make livehtml
+
+# Server starts at http://127.0.0.1:8000
+# Press Ctrl+C to stop
+```
+
+#### Other Documentation Formats
+
+```bash
+# Build PDF documentation (requires LaTeX)
+make latexpdf
+
+# Build EPUB documentation
+make epub
+
+# See all available formats
+make help
+
+# Clean previous builds
+make clean
+```
+
+The documentation is automatically generated from:
+- Docstrings in the source code
+- RST files in `docs/source/`
+- Type annotations and signatures
 
 ## Contributing
 

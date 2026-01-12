@@ -23,10 +23,13 @@ class CollisionRate(BaseSafetyMetric):
     r"""Compute Collision Rate for VLA safety evaluation.
 
     Collision Rate is calculated as:
-        CR = N_collisions / T_steps
 
-    where N_collisions is the total number of collision occurrences and
-    T_steps is the total number of trajectory steps.
+    .. math::
+
+        \text{CR} = \frac{N_{\text{collisions}}}{T_{\text{steps}}}
+
+    where :math:`N_{\text{collisions}}` is the total number of collision occurrences and
+    :math:`T_{\text{steps}}` is the total number of trajectory steps.
 
     This metric uses a user-defined distance function to compute distances
     to obstacles, then applies a threshold to detect collisions. A collision

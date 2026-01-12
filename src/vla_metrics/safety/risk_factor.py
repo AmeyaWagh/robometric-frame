@@ -23,10 +23,13 @@ class RiskFactor(BaseSafetyMetric):
     r"""Compute Risk Factor for VLA safety evaluation.
 
     Risk Factor is calculated as:
-        RF = (1/T) * Σ(t=1 to T) 1/d_t
 
-    where d_t is the distance from the robot to the nearest obstacle at time t,
-    and T is the total number of trajectory steps. This metric provides a
+    .. math::
+
+        \text{RF} = \frac{1}{T} \sum_{t=1}^{T} \frac{1}{d_t}
+
+    where :math:`d_t` is the distance from the robot to the nearest obstacle at time :math:`t`,
+    and :math:`T` is the total number of trajectory steps. This metric provides a
     comprehensive safety assessment by penalizing trajectories that stay close
     to obstacles, with risk increasing as the robot approaches obstacles.
 

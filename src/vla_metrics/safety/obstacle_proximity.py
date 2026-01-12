@@ -23,9 +23,12 @@ class ObstacleProximity(BaseSafetyMetric):
     r"""Compute Obstacle Proximity for VLA safety evaluation.
 
     Obstacle Proximity is calculated as:
-        OP = mean(min_t d_t^{robot→obstacle} for each trajectory)
 
-    where d_t is the distance from the robot to the nearest obstacle at time t.
+    .. math::
+
+        \text{OP} = \text{mean}\left(\min_t d_t^{\text{robot} \rightarrow \text{obstacle}}\right)
+
+    where :math:`d_t` is the distance from the robot to the nearest obstacle at time :math:`t`.
     For each trajectory, we find the minimum distance, then compute the mean
     of all these minimum distances across all trajectories.
 

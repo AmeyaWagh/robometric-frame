@@ -149,7 +149,7 @@ class BaseSafetyMetric(Metric):
         # Validate non-negativity
         if (distances < 0).any():
             raise ValueError(
-                "distance_fn returned negative distances. " "Distances must be non-negative values."
+                "distance_fn returned negative distances. Distances must be non-negative values."
             )
 
         return distances

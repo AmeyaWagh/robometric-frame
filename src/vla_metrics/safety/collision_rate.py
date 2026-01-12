@@ -15,10 +15,11 @@ from typing import Any, Callable, Optional
 
 import torch
 from torch import Tensor
-from torchmetrics import Metric
+
+from vla_metrics.safety.base import BaseSafetyMetric
 
 
-class CollisionRate(Metric):
+class CollisionRate(BaseSafetyMetric):
     r"""Compute Collision Rate for VLA safety evaluation.
 
     Collision Rate is calculated as:
@@ -27,60 +28,66 @@ class CollisionRate(Metric):
     where N_collisions is the total number of collision occurrences and
     T_steps is the total number of trajectory steps.
 
-    This metric uses a user-defined collision detection function that evaluates
-    whether trajectory points result in collisions with the environment. This
-    design follows the control barrier function paradigm where users define
-    safety constraints based on their specific environment representation.
+    This metric uses a user-defined distance function to compute distances
+    to obstacles, then applies a threshold to detect collisions. A collision
+    is detected when the distance is less than or equal to the threshold.
 
     Args:
-        collision_fn: User-defined function that detects collisions.
-            Signature: collision_fn(trajectory: Tensor, environment: Any) -> Tensor
+        distance_fn: User-defined function that computes distances to obstacles.
+            Signature: distance_fn(trajectory: Tensor, environment: Any) -> Tensor
             - trajectory: Shape (..., L, D) where L is trajectory length, D is spatial dims
             - environment: User-defined environment representation (optional)
-            - Returns: Tensor of shape (..., L) with collision indicators
-              (True/1 = collision, False/0 = no collision)
+            - Returns: Tensor of shape (..., L) with distances to nearest obstacle
+              at each trajectory point (positive values)
+        collision_threshold: Distance threshold for collision detection. Distances
+            less than or equal to this value are considered collisions. Default: 0.0
         **kwargs: Additional keyword arguments passed to the base Metric class.
 
     Example:
         >>> from vla_metrics.safety import CollisionRate
         >>> import torch
-        >>> # Define a simple collision detection function
-        >>> def simple_collision_fn(trajectory, environment=None):
-        ...     # Check if any point exceeds bounds [-5, 5]
-        ...     return ((trajectory.abs() > 5).any(dim=-1)).float()
-        >>> metric = CollisionRate(collision_fn=simple_collision_fn)
-        >>> # Trajectory with some points outside bounds
-        >>> trajectory = torch.tensor([[0.0, 0.0], [3.0, 4.0], [6.0, 2.0], [1.0, 1.0]])
+        >>> # Define a distance function
+        >>> def simple_distance_fn(trajectory, environment=None):
+        ...     # Distance to walls at ±5
+        ...     x_coords = trajectory[..., 0]
+        ...     dist_to_walls = torch.minimum(
+        ...         torch.abs(x_coords - 5),
+        ...         torch.abs(x_coords + 5)
+        ...     )
+        ...     return dist_to_walls
+        >>> metric = CollisionRate(distance_fn=simple_distance_fn, collision_threshold=0.5)
+        >>> # Trajectory with some points close to walls
+        >>> trajectory = torch.tensor([[0.0, 0.0], [3.0, 0.0], [4.8, 0.0], [1.0, 0.0]])
         >>> metric.update(trajectory)
         >>> result = metric.compute()
-        >>> result['collision_rate'].item()
+        >>> result['collision_rate'].item()  # One point at distance 0.2 <= 0.5
         0.25
 
     Example (with environment):
-        >>> # Define collision function with environment obstacles
-        >>> def obstacle_collision_fn(trajectory, environment):
+        >>> # Define distance function with environment obstacles
+        >>> def obstacle_distance_fn(trajectory, environment):
         ...     # environment is a dict with obstacle positions and radii
-        ...     collisions = torch.zeros(trajectory.shape[:-1], dtype=torch.bool)
+        ...     min_distances = torch.full(trajectory.shape[:-1], float('inf'))
         ...     for obs_pos, obs_radius in zip(environment['positions'], environment['radii']):
-        ...         # Check distance to obstacle
-        ...         distances = torch.norm(trajectory - obs_pos, dim=-1)
-        ...         collisions |= (distances < obs_radius)
-        ...     return collisions.float()
+        ...         # Compute distance to obstacle surface
+        ...         distances = torch.norm(trajectory - obs_pos, dim=-1) - obs_radius
+        ...         min_distances = torch.minimum(min_distances, distances)
+        ...     return torch.clamp(min_distances, min=0.0)  # Ensure non-negative
         >>> environment = {
         ...     'positions': [torch.tensor([2.0, 2.0]), torch.tensor([5.0, 5.0])],
         ...     'radii': [0.5, 0.5]
         ... }
-        >>> metric = CollisionRate(collision_fn=obstacle_collision_fn)
+        >>> metric = CollisionRate(distance_fn=obstacle_distance_fn)
         >>> trajectory = torch.tensor([[0.0, 0.0], [2.0, 2.0], [3.0, 3.0], [4.0, 4.0]])
         >>> metric.update(trajectory, environment=environment)
         >>> result = metric.compute()
 
     Example (batched):
         >>> # Batch of trajectories
-        >>> metric = CollisionRate(collision_fn=simple_collision_fn)
+        >>> metric = CollisionRate(distance_fn=simple_distance_fn, collision_threshold=0.5)
         >>> trajectories = torch.tensor([
-        ...     [[0.0, 0.0], [1.0, 1.0], [2.0, 2.0]],
-        ...     [[0.0, 0.0], [6.0, 6.0], [7.0, 7.0]]
+        ...     [[0.0, 0.0], [1.0, 0.0], [2.0, 0.0]],
+        ...     [[4.7, 0.0], [4.9, 0.0], [5.0, 0.0]]
         ... ])
         >>> metric.update(trajectories)
         >>> result = metric.compute()
@@ -97,16 +104,17 @@ class CollisionRate(Metric):
 
     def __init__(
         self,
-        collision_fn: Callable[[Tensor, Any], Tensor],
+        distance_fn: Callable[[Tensor, Any], Tensor],
+        collision_threshold: float = 0.0,
         **kwargs: Any,
     ) -> None:
         """Initialize the CollisionRate metric."""
-        super().__init__(**kwargs)
+        super().__init__(distance_fn=distance_fn, **kwargs)
 
-        if not callable(collision_fn):
-            raise TypeError("collision_fn must be a callable function")
+        if collision_threshold < 0:
+            raise ValueError(f"collision_threshold must be non-negative, got {collision_threshold}")
 
-        self.collision_fn = collision_fn
+        self.collision_threshold = collision_threshold
 
         # Add metric states for distributed computation
         self.add_state("total_collisions", default=torch.tensor(0), dist_reduce_fx="sum")
@@ -130,56 +138,32 @@ class CollisionRate(Metric):
                 - (B, L, D): Batch of B trajectories
                 - (B, T, L, D): Batch with time/episode dimension
 
-            environment: Optional environment representation passed to collision_fn.
+            environment: Optional environment representation passed to distance_fn.
                 Can be any type (dict, object, tensor, etc.) that the user's
-                collision function expects.
+                distance function expects.
 
         Raises:
-            ValueError: If trajectory has invalid shape.
-            RuntimeError: If collision_fn returns invalid shape or type.
+            ValueError: If trajectory has invalid shape or distances are negative.
+            RuntimeError: If distance_fn returns invalid shape or type.
 
         Example:
-            >>> metric = CollisionRate(collision_fn=my_collision_fn)
+            >>> metric = CollisionRate(distance_fn=my_distance_fn)
             >>> trajectory = torch.randn(10, 2)  # 10 points in 2D
             >>> metric.update(trajectory)
             >>> # With environment
             >>> metric.update(trajectory, environment={'obstacles': [...]})
         """
-        if trajectory.ndim < 2:
-            raise ValueError(
-                f"Trajectory must have at least 2 dimensions (..., L, D), "
-                f"got {trajectory.ndim}D tensor with shape {trajectory.shape}"
-            )
+        # Validate trajectory shape
+        self._validate_trajectory(trajectory)
 
-        # Call user's collision detection function
-        try:
-            collisions = self.collision_fn(trajectory, environment)
-        except Exception as e:
-            raise RuntimeError(
-                f"User-provided collision_fn raised an exception: {e}. "
-                f"Ensure collision_fn accepts (trajectory, environment) and returns a tensor."
-            ) from e
+        # Compute distances using base class method
+        distances = self._compute_distances(trajectory, environment)
 
-        # Validate collision output
-        if not isinstance(collisions, Tensor):
-            raise RuntimeError(
-                f"collision_fn must return a Tensor, got {type(collisions)}. "
-                f"Expected shape (..., L) where L is trajectory length."
-            )
-
-        # Expected shape is trajectory shape without the last dimension (D)
-        expected_shape = trajectory.shape[:-1]  # (..., L)
-        if collisions.shape != expected_shape:
-            raise RuntimeError(
-                f"collision_fn returned tensor with shape {collisions.shape}, "
-                f"expected {expected_shape} (trajectory shape without spatial dimension)"
-            )
-
-        # Convert to binary (handle both boolean and numeric)
-        collisions = (collisions != 0).long()
+        # Detect collisions based on threshold
+        collisions = self._detect_collisions(distances, self.collision_threshold)
 
         # Count collisions and steps
-        num_collisions = collisions.sum()
+        num_collisions = collisions.sum().long()
         num_steps = collisions.numel()
 
         # Update states
@@ -200,7 +184,7 @@ class CollisionRate(Metric):
             RuntimeError: If no trajectories have been recorded.
 
         Example:
-            >>> metric = CollisionRate(collision_fn=my_collision_fn)
+            >>> metric = CollisionRate(distance_fn=my_distance_fn)
             >>> metric.update(trajectory)
             >>> result = metric.compute()
             >>> print(f"Collision rate: {result['collision_rate'].item():.2%}")

@@ -3,8 +3,8 @@
 This module provides metrics for evaluating the safety and robustness of VLA models,
 including collision detection, obstacle proximity, and risk assessment.
 
-All safety metrics use user-defined functions to evaluate trajectories against
-environment constraints, following the control barrier function paradigm.
+All safety metrics use user-defined distance functions to evaluate trajectories against
+environment constraints.
 """
 
 from vla_metrics.safety.collision_rate import CollisionRate

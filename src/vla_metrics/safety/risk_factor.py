@@ -15,10 +15,11 @@ from typing import Any, Callable, Optional
 
 import torch
 from torch import Tensor
-from torchmetrics import Metric
+
+from vla_metrics.safety.base import BaseSafetyMetric
 
 
-class RiskFactor(Metric):
+class RiskFactor(BaseSafetyMetric):
     r"""Compute Risk Factor for VLA safety evaluation.
 
     Risk Factor is calculated as:
@@ -109,15 +110,11 @@ class RiskFactor(Metric):
         **kwargs: Any,
     ) -> None:
         """Initialize the RiskFactor metric."""
-        super().__init__(**kwargs)
-
-        if not callable(distance_fn):
-            raise TypeError("distance_fn must be a callable function")
+        super().__init__(distance_fn=distance_fn, **kwargs)
 
         if epsilon <= 0:
             raise ValueError(f"epsilon must be positive, got {epsilon}")
 
-        self.distance_fn = distance_fn
         self.epsilon = epsilon
 
         # Add metric states for distributed computation
@@ -157,42 +154,11 @@ class RiskFactor(Metric):
             >>> # With environment
             >>> metric.update(trajectory, environment={'obstacles': [...]})
         """
-        if trajectory.ndim < 2:
-            raise ValueError(
-                f"Trajectory must have at least 2 dimensions (..., L, D), "
-                f"got {trajectory.ndim}D tensor with shape {trajectory.shape}"
-            )
+        # Validate trajectory shape
+        self._validate_trajectory(trajectory)
 
-        # Call user's distance function
-        try:
-            distances = self.distance_fn(trajectory, environment)
-        except Exception as e:
-            raise RuntimeError(
-                f"User-provided distance_fn raised an exception: {e}. "
-                f"Ensure distance_fn accepts (trajectory, environment) and returns a tensor."
-            ) from e
-
-        # Validate distance output
-        if not isinstance(distances, Tensor):
-            raise RuntimeError(
-                f"distance_fn must return a Tensor, got {type(distances)}. "
-                f"Expected shape (..., L) where L is trajectory length."
-            )
-
-        # Expected shape is trajectory shape without the last dimension (D)
-        expected_shape = trajectory.shape[:-1]  # (..., L)
-        if distances.shape != expected_shape:
-            raise RuntimeError(
-                f"distance_fn returned tensor with shape {distances.shape}, "
-                f"expected {expected_shape} (trajectory shape without spatial dimension)"
-            )
-
-        # Convert to float and validate
-        distances = distances.float()
-        if (distances < 0).any():
-            raise ValueError(
-                "distance_fn returned negative distances. " "Distances must be non-negative values."
-            )
+        # Compute distances using base class method
+        distances = self._compute_distances(trajectory, environment)
 
         # Compute reciprocal distances (risk at each point)
         # Add epsilon to avoid division by zero

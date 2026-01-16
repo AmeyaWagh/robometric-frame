@@ -79,7 +79,7 @@ myst_enable_extensions = [
 ]
 
 # Suppress warnings for missing cross-references in included markdown files
-suppress_warnings = ["myst.xref_missing"]
+suppress_warnings = ["myst.xref_missing", "image.not_readable"]
 
 # Templates
 templates_path = ["_templates"]
@@ -108,10 +108,49 @@ html_logo = None
 html_favicon = None
 
 # -- Options for LaTeX output ------------------------------------------------
-latex_elements: dict[str, Any] = {}
+latex_elements: dict[str, Any] = {
+    # The paper size ('letterpaper' or 'a4paper').
+    "papersize": "letterpaper",
+    # The font size ('10pt', '11pt' or '12pt').
+    "pointsize": "10pt",
+    # Additional stuff for the LaTeX preamble.
+    "preamble": r"""
+% Gracefully handle unsupported image formats (like SVG)
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg,.jpeg,.PDF,.PNG,.JPG,.JPEG}
+% Support for Unicode characters (like Greek letters σ, Σ, etc.)
+\usepackage{newunicodechar}
+% Lowercase Greek letters
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+% Uppercase Greek letters
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+% Mathematical symbols
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{²}{\ensuremath{^2}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+""",
+}
 latex_documents = [
     ("index", "vla-metrics.tex", "VLA Metrics Documentation", "Ameya Wagh", "manual"),
 ]
+
+# Tell Sphinx to not include SVG images in LaTeX builds
+latex_show_urls = "footnote"
+latex_show_pagerefs = True
 
 # -- Options for manual page output ------------------------------------------
 man_pages = [("index", "vla-metrics", "VLA Metrics Documentation", [author], 1)]

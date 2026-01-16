@@ -1,8 +1,16 @@
 VLA Metrics Documentation
 ==========================
 
-.. include:: ../../README.md
-   :parser: myst_parser.sphinx_
+.. only:: html
+
+   .. include:: ../../README.md
+      :parser: myst_parser.sphinx_
+
+.. only:: latex
+
+   .. include:: ../../README.md
+      :parser: myst_parser.sphinx_
+      :start-after: [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Comprehensive Metrics Reference
 ================================

@@ -112,7 +112,7 @@ class TestInferenceLatency:
         """Test that negative latency values raise an error."""
         metric = InferenceLatency()
 
-        with pytest.raises(ValueError, match="Latency values must be non-negative"):
+        with pytest.raises(ValueError, match="Values must be non-negative"):
             metric.update(torch.tensor([-0.1, 0.2]))
 
     def test_compute_before_update_error(self) -> None:
@@ -127,14 +127,14 @@ class TestInferenceLatency:
         metric = InferenceLatency()
         metric.start()
 
-        with pytest.raises(RuntimeError, match="Timer already started"):
+        with pytest.raises(RuntimeError, match="Already tracking"):
             metric.start()
 
     def test_stop_without_start_error(self) -> None:
         """Test that calling stop() without start() raises an error."""
         metric = InferenceLatency()
 
-        with pytest.raises(RuntimeError, match="Timer not started"):
+        with pytest.raises(RuntimeError, match="Not currently tracking"):
             metric.stop()
 
     def test_mixed_timing_and_update(self) -> None:

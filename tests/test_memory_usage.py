@@ -92,11 +92,11 @@ class TestMemoryUsage:
 
         # Start tracking but don't stop
         metric.start()
-        assert metric._tracking is True
+        assert metric._is_tracking is True
 
         # Reset should clear the internal state
         metric.reset()
-        assert metric._tracking is False
+        assert metric._is_tracking is False
 
         # Should be able to start a new measurement after reset
         metric.start()
@@ -109,7 +109,7 @@ class TestMemoryUsage:
         """Test that negative memory values raise an error."""
         metric = MemoryUsage()
 
-        with pytest.raises(ValueError, match="Memory values must be non-negative"):
+        with pytest.raises(ValueError, match="Values must be non-negative"):
             metric.update(torch.tensor([-100.0, 200.0]))
 
     def test_compute_before_update_error(self) -> None:
@@ -124,7 +124,7 @@ class TestMemoryUsage:
         metric = MemoryUsage()
         metric.start()
 
-        with pytest.raises(RuntimeError, match="Already tracking memory usage"):
+        with pytest.raises(RuntimeError, match="Already tracking"):
             metric.start()
 
     def test_stop_without_start_error(self) -> None:

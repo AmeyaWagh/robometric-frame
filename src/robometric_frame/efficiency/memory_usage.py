@@ -13,10 +13,11 @@ from typing import Any, Optional
 
 import torch
 from torch import Tensor
-from torchmetrics import Metric
+
+from robometric_frame.efficiency.base import EfficiencyMetric
 
 
-class MemoryUsage(Metric):
+class MemoryUsage(EfficiencyMetric):
     r"""Compute Memory Usage for robotics policy evaluation.
 
     Memory Usage is calculated as:
@@ -88,18 +89,6 @@ class MemoryUsage(Metric):
         >>> result = metric.compute()
     """
 
-    # Metric states that persist across updates
-    full_state_update: bool = False
-    is_differentiable: bool = False
-    higher_is_better: bool = False
-
-    # Dynamically added by add_state() in __init__
-    total_memory: Tensor
-    peak_memory: Tensor
-    count: Tensor
-    memory_readings: list[Tensor]
-    _tracking: bool
-
     def __init__(
         self,
         track_ram: bool = True,
@@ -108,33 +97,13 @@ class MemoryUsage(Metric):
         **kwargs: Any,
     ) -> None:
         """Initialize the MemoryUsage metric."""
-        super().__init__(**kwargs)
+        super().__init__(percentiles=percentiles, **kwargs)
 
         self.track_ram = track_ram
         # Auto-detect VRAM tracking if not specified
         if track_vram is None:
             track_vram = torch.cuda.is_available()
         self.track_vram = track_vram
-
-        # Store percentiles to compute
-        if percentiles is None:
-            percentiles = [0.5, 0.95, 0.99]  # median, 95th, 99th percentiles
-        self.percentiles = percentiles
-
-        # Validate percentiles
-        for p in self.percentiles:
-            if not 0 <= p <= 1:
-                raise ValueError(f"Percentiles must be between 0 and 1, got {p}")
-
-        # Add metric states for distributed computation
-        self.add_state("total_memory", default=torch.tensor(0.0), dist_reduce_fx="sum")
-        self.add_state("peak_memory", default=torch.tensor(0.0), dist_reduce_fx="max")
-        self.add_state("count", default=torch.tensor(0), dist_reduce_fx="sum")
-        # Store all readings for percentile calculation
-        self.add_state("memory_readings", default=[], dist_reduce_fx="cat")
-
-        # Internal state for tracking
-        self._tracking = False
 
     def _get_current_memory(self) -> float:
         """Get current memory usage in MB.
@@ -162,83 +131,21 @@ class MemoryUsage(Metric):
 
         return total_mb
 
-    def start(self) -> None:
-        """Start tracking memory usage.
+    def _on_start(self) -> None:
+        """Called when memory tracking starts (no-op for memory)."""
+        pass  # Memory is sampled at stop time
 
-        This method begins memory tracking. Call stop() to record the peak
-        memory usage during the tracked period.
+    def _on_stop(self) -> float:
+        """Get current memory usage.
 
-        Raises:
-            RuntimeError: If start() is called while already tracking.
-
-        Example:
-            >>> metric = MemoryUsage()
-            >>> metric.start()
-            >>> # ... perform memory-intensive operations ...
-            >>> metric.stop()
+        Returns:
+            Current memory usage in MB.
         """
-        if self._tracking:
-            raise RuntimeError(
-                "Already tracking memory usage. Call stop() before starting a new measurement."
-            )
+        return self._get_current_memory()
 
-        self._tracking = True
-
-    def stop(self) -> None:
-        """Stop tracking and record the current memory usage.
-
-        This method stops memory tracking and records the current memory
-        consumption.
-
-        Raises:
-            RuntimeError: If stop() is called without a preceding start().
-
-        Example:
-            >>> metric = MemoryUsage()
-            >>> metric.start()
-            >>> # ... perform operations ...
-            >>> metric.stop()
-        """
-        if not self._tracking:
-            raise RuntimeError("Not currently tracking. Call start() before stop().")
-
-        self._tracking = False
-
-        # Get current memory and update metric
-        current_memory = self._get_current_memory()
-        self.update(torch.tensor(current_memory, device=self.device))
-
-    def update(self, memory_mb: Tensor) -> None:  # pylint: disable=arguments-differ
-        """Update metric state with memory measurements.
-
-        Args:
-            memory_mb: Memory measurements in megabytes (MB). Can be:
-                - Scalar tensor: Single memory measurement
-                - 1D tensor: Batch of memory measurements
-
-                All values must be non-negative.
-
-        Raises:
-            ValueError: If memory contains negative values.
-
-        Example:
-            >>> metric = MemoryUsage()
-            >>> metric.update(torch.tensor(128.5))  # Single measurement
-            >>> metric.update(torch.tensor([100.0, 150.0, 200.0]))  # Batch
-        """
-        # Flatten to 1D if needed
-        memory_mb = memory_mb.flatten().float()
-
-        # Validate inputs
-        if (memory_mb < 0).any():
-            raise ValueError("Memory values must be non-negative")
-
-        # Update states
-        self.total_memory += memory_mb.sum()  # pylint: disable=no-member
-        self.peak_memory = torch.max(self.peak_memory, memory_mb.max())  # pylint: disable=no-member
-        self.count += memory_mb.numel()  # pylint: disable=no-member
-        # Store readings for percentile calculation
-        self.memory_readings.append(memory_mb)  # pylint: disable=no-member
+    def _get_measurement_unit(self) -> str:
+        """Return '_mb' suffix for megabytes."""
+        return "_mb"
 
     def compute(self) -> dict[str, Tensor]:
         """Compute memory usage statistics including percentiles.
@@ -246,60 +153,17 @@ class MemoryUsage(Metric):
         Returns:
             Dictionary containing:
                 - 'mean_mb': Mean memory usage in megabytes
-                - 'peak_mb': Peak memory usage in megabytes
+                - 'peak_mb': Peak memory usage in megabytes (alias for max_mb)
+                - 'min_mb': Minimum memory usage in megabytes
+                - 'max_mb': Maximum memory usage in megabytes
                 - 'total_mb': Total accumulated memory in megabytes
                 - 'count': Number of measurements
                 - 'p{X}_mb': Xth percentile in MB (e.g., 'p50_mb' for median)
 
         Raises:
             RuntimeError: If no measurements have been recorded.
-
-        Example:
-            >>> metric = MemoryUsage()
-            >>> metric.update(torch.tensor([100.0, 200.0, 150.0]))
-            >>> result = metric.compute()
-            >>> result['mean_mb'].item()
-            150.0
-            >>> result['peak_mb'].item()
-            200.0
-            >>> result['p50_mb'].item()  # median
-            150.0
         """
-        if self.count == 0:  # pylint: disable=no-member
-            raise RuntimeError(
-                "Cannot compute memory usage: no measurements have been recorded. "
-                "Call update() or start()/stop() before compute()."
-            )
-
-        # Base statistics
-        stats = {
-            "mean_mb": self.total_memory / self.count,  # pylint: disable=no-member
-            "peak_mb": self.peak_memory,  # pylint: disable=no-member
-            "total_mb": self.total_memory,  # pylint: disable=no-member
-            "count": self.count.float(),  # pylint: disable=no-member
-        }
-
-        # Compute percentiles if readings are stored
-        if self.memory_readings:  # pylint: disable=no-member
-            all_readings = torch.cat(self.memory_readings)  # pylint: disable=no-member
-            for p in self.percentiles:
-                # Format percentile key (e.g., 0.95 -> 'p95_mb', 0.5 -> 'p50_mb')
-                key = f"p{int(p * 100)}_mb"
-                stats[key] = torch.quantile(all_readings, p)
-
+        stats = super().compute()
+        # Add peak_mb as alias for max_mb for backwards compatibility
+        stats["peak_mb"] = stats["max_mb"]
         return stats
-
-    def reset(self) -> None:
-        """Reset the metric state.
-
-        This method resets all metric states to their default values and clears
-        any internal tracking state.
-
-        Example:
-            >>> metric = MemoryUsage()
-            >>> metric.update(torch.tensor([100.0, 200.0]))
-            >>> metric.reset()
-            >>> # Metric is now ready for new measurements
-        """
-        super().reset()
-        self._tracking = False

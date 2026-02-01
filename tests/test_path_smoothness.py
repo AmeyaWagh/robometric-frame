@@ -3,7 +3,7 @@
 import pytest
 import torch
 
-from vla_metrics.trajectory_quality import PathSmoothness
+from robometric_frame.trajectory_quality import PathSmoothness
 
 
 class TestPathSmoothness:

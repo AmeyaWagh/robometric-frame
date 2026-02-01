@@ -20,7 +20,7 @@
     {
       "label": "Run Tests with Coverage",
       "type": "shell",
-      "command": "source .venv/bin/activate && pytest --cov=vla_metrics --cov-report=html",
+      "command": "source .venv/bin/activate && pytest --cov=robometric_frame --cov-report=html",
       "group": "test",
       "presentation": {
         "echo": true,

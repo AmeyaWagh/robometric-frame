@@ -33,7 +33,7 @@ class PathLength(Metric):
         **kwargs: Additional keyword arguments passed to the base Metric class.
 
     Example:
-        >>> from vla_metrics.trajectory_quality import PathLength
+        >>> from robometric_frame.trajectory_quality import PathLength
         >>> import torch
         >>> metric = PathLength()
         >>> # 2D trajectory with 5 points

@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "vla-metrics"
+name = "robometric-frame"
 version = "0.1.0"
-description = "TorchMetrics-based evaluation metrics for Vision-Language-Action (VLA) models in robotics"
+description = "FRAME: Framework for Robotic Action and Motion Evaluation - TorchMetrics-based evaluation metrics for Vision-Language-Action (VLA) models in robotics"
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
@@ -56,23 +56,23 @@ docs = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/ameyawagh/vla-metrics"
-Documentation = "https://github.com/ameyawagh/vla-metrics"
-Repository = "https://github.com/ameyawagh/vla-metrics"
-Issues = "https://github.com/ameyawagh/vla-metrics/issues"
+Homepage = "https://github.com/ameyawagh/robometric-frame"
+Documentation = "https://github.com/ameyawagh/robometric-frame"
+Repository = "https://github.com/ameyawagh/robometric-frame"
+Issues = "https://github.com/ameyawagh/robometric-frame/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.setuptools.package-data]
-vla_metrics = ["py.typed"]
+robometric_frame = ["py.typed"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
-addopts = "-v --cov=vla_metrics --cov-report=term-missing"
+addopts = "-v --cov=robometric_frame --cov-report=term-missing"
 
 [tool.ruff]
 line-length = 100
@@ -88,7 +88,7 @@ select = ["E", "F", "I", "N", "W", "B", "C4", "UP"]
 ignore = []
 
 [tool.ruff.lint.isort]
-known-first-party = ["vla_metrics"]
+known-first-party = ["robometric_frame"]
 section-order = [
     "future",
     "standard-library",

@@ -46,7 +46,7 @@ class ActionAccuracy(Metric):
         **kwargs: Additional keyword arguments passed to the base Metric class.
 
     Example:
-        >>> from vla_metrics import ActionAccuracy
+        >>> from robometric_frame import ActionAccuracy
         >>> import torch
         >>> metric = ActionAccuracy()
         >>>

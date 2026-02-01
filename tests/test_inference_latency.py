@@ -5,7 +5,7 @@ import time
 import pytest
 import torch
 
-from vla_metrics.efficiency import InferenceLatency
+from robometric_frame.efficiency import InferenceLatency
 
 
 class TestInferenceLatency:

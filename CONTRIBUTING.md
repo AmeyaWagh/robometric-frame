@@ -1,11 +1,11 @@
-# Contributing to VLA Metrics
+# Contributing to FRAME
 
 ## Setup
 
 1. **Fork and clone the repository:**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/vla-metrics.git
-   cd vla-metrics
+   git clone https://github.com/YOUR_USERNAME/robometric-frame.git
+   cd robometric-frame
    ```
 
 2. **Create virtual environment and install dependencies:**
@@ -66,7 +66,7 @@ All code must pass tests and maintain 100% coverage:
 pytest
 
 # Run with coverage
-pytest --cov=vla_metrics --cov-report=term-missing
+pytest --cov=robometric_frame --cov-report=term-missing
 
 # Run pre-commit hooks
 pre-commit run --all-files

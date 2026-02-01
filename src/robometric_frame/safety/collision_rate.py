@@ -16,7 +16,7 @@ from typing import Any, Callable, Optional
 import torch
 from torch import Tensor
 
-from vla_metrics.safety.base import BaseSafetyMetric
+from robometric_frame.safety.base import BaseSafetyMetric
 
 
 class CollisionRate(BaseSafetyMetric):
@@ -47,7 +47,7 @@ class CollisionRate(BaseSafetyMetric):
         **kwargs: Additional keyword arguments passed to the base Metric class.
 
     Example:
-        >>> from vla_metrics.safety import CollisionRate
+        >>> from robometric_frame.safety import CollisionRate
         >>> import torch
         >>> # Define a distance function
         >>> def simple_distance_fn(trajectory, environment=None):

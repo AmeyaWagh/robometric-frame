@@ -36,7 +36,7 @@ class TaskCompletionRate(Metric):
         **kwargs: Additional keyword arguments passed to the base Metric class.
 
     Example:
-        >>> from vla_metrics import TaskCompletionRate
+        >>> from robometric_frame import TaskCompletionRate
         >>> metric = TaskCompletionRate()
         >>> # Binary completion indicators for task chains
         >>> completion = torch.tensor([1, 0, 1, 1, 0])

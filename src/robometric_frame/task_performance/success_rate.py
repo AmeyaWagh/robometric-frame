@@ -34,7 +34,7 @@ class SuccessRate(Metric):
         **kwargs: Additional keyword arguments passed to the base Metric class.
 
     Example:
-        >>> from vla_metrics import SuccessRate
+        >>> from robometric_frame import SuccessRate
         >>> metric = SuccessRate()
         >>> # Binary success indicators
         >>> success = torch.tensor([1, 1, 0, 1, 0, 0, 1])

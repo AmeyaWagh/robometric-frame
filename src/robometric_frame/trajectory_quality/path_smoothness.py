@@ -40,7 +40,7 @@ class PathSmoothness(Metric):
         **kwargs: Additional keyword arguments passed to the base Metric class.
 
     Example:
-        >>> from vla_metrics.trajectory_quality import PathSmoothness
+        >>> from robometric_frame.trajectory_quality import PathSmoothness
         >>> import torch
         >>> metric = PathSmoothness()
         >>> # Smooth straight line (perfect smoothness = 0)

@@ -3,7 +3,7 @@
 import pytest
 import torch
 
-from vla_metrics.task_performance.action_accuracy import ActionAccuracy
+from robometric_frame.task_performance.action_accuracy import ActionAccuracy
 
 
 class TestActionAccuracy:

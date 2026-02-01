@@ -5,7 +5,7 @@ import math
 import pytest
 import torch
 
-from vla_metrics.trajectory_quality import CurvatureChange
+from robometric_frame.trajectory_quality import CurvatureChange
 
 
 class TestCurvatureChange:

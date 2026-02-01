@@ -1,6 +1,6 @@
 # Git Hooks Setup Guide
 
-This document explains how to set up and use git hooks for automated code quality checks in the vla-metrics project.
+This document explains how to set up and use git hooks for automated code quality checks in the FRAME project.
 
 ## Overview
 
@@ -52,7 +52,7 @@ pre-commit install --hook-type commit-msg
 Once installed, the hooks run automatically when you commit:
 
 ```bash
-git add src/vla_metrics/new_file.py
+git add src/robometric_frame/new_file.py
 git commit -m "feat: add new metric"
 ```
 
@@ -79,7 +79,7 @@ pre-commit run ruff-format --all-files  # Format
 pre-commit run mypy --all-files         # Type check
 
 # Run hooks on specific files
-pre-commit run --files src/vla_metrics/task_performance/success_rate.py
+pre-commit run --files src/robometric_frame/task_performance/success_rate.py
 ```
 
 ### Skipping Hooks (Not Recommended)
@@ -134,7 +134,7 @@ ruff format --check src/
 mypy src/
 
 # Run on specific module
-mypy src/vla_metrics/task_performance/
+mypy src/robometric_frame/task_performance/
 ```
 
 ### Interrogate - Docstring Coverage

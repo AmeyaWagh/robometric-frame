@@ -2,13 +2,13 @@
 
 import torch
 
-from vla_metrics import PathLength
+from robometric_frame import PathLength
 
 
 def main() -> None:
     """Demonstrate basic PathLength usage."""
     print("=" * 60)
-    print("VLA Metrics - Path Length Example")
+    print("FRAME - Path Length Example")
     print("=" * 60)
 
     # Example 1: Simple 2D trajectory

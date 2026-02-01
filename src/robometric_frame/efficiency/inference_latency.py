@@ -38,7 +38,7 @@ class InferenceLatency(Metric):
         **kwargs: Additional keyword arguments passed to the base Metric class.
 
     Example:
-        >>> from vla_metrics.efficiency import InferenceLatency
+        >>> from robometric_frame.efficiency import InferenceLatency
         >>> import torch
         >>> import time
         >>> metric = InferenceLatency()

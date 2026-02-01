@@ -9,13 +9,13 @@ This repository provides a TorchMetrics-based library for evaluating Vision-Lang
 ## Repository Structure
 
 ```
-vla-metrics/
+robometric-frame/
 ├── .vscode/                      # VS Code configuration
 │   ├── settings.json            # Editor settings, formatters, linters
 │   ├── extensions.json          # Recommended extensions
 │   ├── launch.json              # Debug configurations
 │   └── tasks.json               # Build and test tasks
-├── src/vla_metrics/              # Source code (src layout)
+├── src/robometric_frame/              # Source code (src layout)
 │   ├── __init__.py              # Package initialization, exports
 │   └── task_performance/         # Task performance metrics module
 │       ├── __init__.py
@@ -112,10 +112,10 @@ source .venv/bin/activate
 pytest
 
 # Run with coverage report
-pytest --cov=vla_metrics --cov-report=term-missing
+pytest --cov=robometric_frame --cov-report=term-missing
 
 # Run with HTML coverage report
-pytest --cov=vla_metrics --cov-report=html
+pytest --cov=robometric_frame --cov-report=html
 
 # Run specific test file
 pytest tests/test_success_rate.py -v
@@ -169,7 +169,7 @@ All metrics follow the TorchMetrics pattern:
 4. **Compute final result in `compute()`**: Calculate metric from accumulated states
 5. **Reset states in `reset()`**: Clear states for next epoch (inherited)
 
-### SuccessRate Implementation (src/vla_metrics/task_performance/success_rate.py)
+### SuccessRate Implementation (src/robometric_frame/task_performance/success_rate.py)
 
 ```python
 class SuccessRate(Metric):
@@ -289,7 +289,7 @@ class VLAModel(pl.LightningModule):
 
 When implementing a new metric:
 
-1. **Create metric file**: `src/vla_metrics/{category}/{metric_name}.py`
+1. **Create metric file**: `src/robometric_frame/{category}/{metric_name}.py`
 2. **Implement class**: Inherit from `torchmetrics.Metric`
 3. **Add states**: Use `add_state()` for distributed support
 4. **Implement methods**: `__init__`, `update`, `compute`

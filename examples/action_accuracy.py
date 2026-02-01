@@ -7,7 +7,7 @@ action prediction accuracy using MSE, AMSE, and NAMSE in Vision-Language-Action 
 
 import torch
 
-from vla_metrics import ActionAccuracy
+from robometric_frame import ActionAccuracy
 
 
 def main() -> None:

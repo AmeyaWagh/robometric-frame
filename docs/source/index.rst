@@ -1,5 +1,5 @@
-VLA Metrics Documentation
-==========================
+FRAME Documentation
+====================
 
 .. only:: html
 
@@ -25,16 +25,16 @@ API Reference
    :toctree: _autosummary
    :recursive:
 
-   vla_metrics.task_performance
-   vla_metrics.trajectory_quality
-   vla_metrics.safety
-   vla_metrics.efficiency
+   robometric_frame.task_performance
+   robometric_frame.trajectory_quality
+   robometric_frame.safety
+   robometric_frame.efficiency
 
 Development & Contributing
 ===========================
 
 For development setup, testing guidelines, and contribution instructions,
-see `CLAUDE.md <https://github.com/ameyawagh/vla-metrics/blob/main/CLAUDE.md>`_.
+see `CLAUDE.md <https://github.com/ameyawagh/robometric-frame/blob/main/CLAUDE.md>`_.
 
 Indices
 =======

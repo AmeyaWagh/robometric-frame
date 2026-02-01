@@ -3,7 +3,7 @@
 import pytest
 import torch
 
-from vla_metrics.safety import RiskFactor
+from robometric_frame.safety import RiskFactor
 
 
 # Simple distance functions for testing

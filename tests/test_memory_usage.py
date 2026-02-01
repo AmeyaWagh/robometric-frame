@@ -3,7 +3,7 @@
 import pytest
 import torch
 
-from vla_metrics.efficiency import MemoryUsage
+from robometric_frame.efficiency import MemoryUsage
 
 
 class TestMemoryUsage:

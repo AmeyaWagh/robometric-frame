@@ -3,7 +3,7 @@
 import pytest
 import torch
 
-from vla_metrics.safety import CollisionRate
+from robometric_frame.safety import CollisionRate
 
 
 # Simple distance functions for testing

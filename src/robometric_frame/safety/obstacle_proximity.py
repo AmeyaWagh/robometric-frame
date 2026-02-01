@@ -16,7 +16,7 @@ from typing import Any, Callable, Optional
 import torch
 from torch import Tensor
 
-from vla_metrics.safety.base import BaseSafetyMetric
+from robometric_frame.safety.base import BaseSafetyMetric
 
 
 class ObstacleProximity(BaseSafetyMetric):
@@ -47,7 +47,7 @@ class ObstacleProximity(BaseSafetyMetric):
         **kwargs: Additional keyword arguments passed to the base Metric class.
 
     Example:
-        >>> from vla_metrics.safety import ObstacleProximity
+        >>> from robometric_frame.safety import ObstacleProximity
         >>> import torch
         >>> # Define a simple distance function
         >>> def simple_distance_fn(trajectory, environment=None):

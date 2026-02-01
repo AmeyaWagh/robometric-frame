@@ -3,7 +3,7 @@
 import pytest
 import torch
 
-from vla_metrics.trajectory_quality import PathLength
+from robometric_frame.trajectory_quality import PathLength
 
 
 class TestPathLength:

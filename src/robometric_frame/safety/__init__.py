@@ -7,9 +7,9 @@ All safety metrics use user-defined distance functions to evaluate trajectories 
 environment constraints.
 """
 
-from vla_metrics.safety.collision_rate import CollisionRate
-from vla_metrics.safety.obstacle_proximity import ObstacleProximity
-from vla_metrics.safety.risk_factor import RiskFactor
+from robometric_frame.safety.collision_rate import CollisionRate
+from robometric_frame.safety.obstacle_proximity import ObstacleProximity
+from robometric_frame.safety.risk_factor import RiskFactor
 
 __all__ = [
     "CollisionRate",

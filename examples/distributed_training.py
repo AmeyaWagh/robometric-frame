@@ -2,7 +2,7 @@
 
 import torch
 
-from vla_metrics import SuccessRate
+from robometric_frame import SuccessRate
 
 
 def simulate_distributed_evaluation() -> None:
@@ -12,7 +12,7 @@ def simulate_distributed_evaluation() -> None:
     subset of data, and torchmetrics automatically syncs across processes.
     """
     print("=" * 60)
-    print("VLA Metrics - Distributed Evaluation Simulation")
+    print("FRAME - Distributed Evaluation Simulation")
     print("=" * 60)
 
     print("\nSimulating evaluation across 4 GPUs...")

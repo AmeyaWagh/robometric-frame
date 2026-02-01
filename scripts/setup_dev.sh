@@ -1,10 +1,10 @@
 #!/bin/bash
-# Development environment setup script for vla-metrics
+# Development environment setup script for FRAME (robometric-frame)
 
 set -e  # Exit on error
 
 echo "=========================================="
-echo "VLA Metrics - Development Setup"
+echo "FRAME - Development Setup"
 echo "=========================================="
 echo ""
 
@@ -15,7 +15,7 @@ echo "Python version: $python_version"
 echo ""
 
 # Install package with dev dependencies
-echo "Installing vla-metrics with dev dependencies..."
+echo "Installing robometric-frame with dev dependencies..."
 pip install -e ".[dev]"
 echo ""
 
@@ -44,7 +44,7 @@ echo "Git hooks are now installed. They will run automatically before each commi
 echo ""
 echo "Useful commands:"
 echo "  - Run all tests:          pytest"
-echo "  - Run with coverage:      pytest --cov=vla_metrics"
+echo "  - Run with coverage:      pytest --cov=robometric_frame"
 echo "  - Format code:            black src/ tests/ examples/"
 echo "  - Lint code:              ruff src/ tests/ examples/"
 echo "  - Type check:             mypy src/"

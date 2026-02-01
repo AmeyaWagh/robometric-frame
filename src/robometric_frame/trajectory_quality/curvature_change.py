@@ -38,7 +38,7 @@ class CurvatureChange(Metric):
         **kwargs: Additional keyword arguments passed to the base Metric class.
 
     Example:
-        >>> from vla_metrics.trajectory_quality import CurvatureChange
+        >>> from robometric_frame.trajectory_quality import CurvatureChange
         >>> import torch
         >>> metric = CurvatureChange()
         >>> # Straight line motion (constant orientation)

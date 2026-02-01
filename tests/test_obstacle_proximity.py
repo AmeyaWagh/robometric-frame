@@ -3,7 +3,7 @@
 import pytest
 import torch
 
-from vla_metrics.safety import ObstacleProximity
+from robometric_frame.safety import ObstacleProximity
 
 
 # Simple distance functions for testing

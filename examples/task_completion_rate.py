@@ -7,7 +7,7 @@ multi-step task chain completion in Vision-Language-Action models.
 
 import torch
 
-from vla_metrics import TaskCompletionRate
+from robometric_frame import TaskCompletionRate
 
 
 def main() -> None:

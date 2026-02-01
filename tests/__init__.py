@@ -1,1 +1,1 @@
-"""Tests for vla-metrics library."""
+"""Tests for FRAME (robometric-frame) library."""

@@ -41,7 +41,7 @@
   "python.testing.pytestArgs": [
     "tests",
     "-v",
-    "--cov=vla_metrics",
+    "--cov=robometric_frame",
     "--cov-report=term-missing"
   ],
 

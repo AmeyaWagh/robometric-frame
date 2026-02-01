@@ -3,7 +3,7 @@
 import pytest
 import torch
 
-from vla_metrics.task_performance.task_completion_rate import TaskCompletionRate
+from robometric_frame.task_performance.task_completion_rate import TaskCompletionRate
 
 
 class TestTaskCompletionRate:

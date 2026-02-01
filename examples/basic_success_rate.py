@@ -2,13 +2,13 @@
 
 import torch
 
-from vla_metrics import SuccessRate
+from robometric_frame import SuccessRate
 
 
 def main() -> None:
     """Demonstrate basic SuccessRate usage."""
     print("=" * 60)
-    print("VLA Metrics - Success Rate Example")
+    print("FRAME - Success Rate Example")
     print("=" * 60)
 
     # Example 1: Binary success indicators

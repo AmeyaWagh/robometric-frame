@@ -3,7 +3,7 @@
 import pytest
 import torch
 
-from vla_metrics.task_performance import SuccessRate
+from robometric_frame.task_performance import SuccessRate
 
 
 class TestSuccessRate:
@@ -159,7 +159,7 @@ class TestTaskSuccessRate:
 
     def test_alias_functionality(self) -> None:
         """Test that TaskSuccessRate works as an alias."""
-        from vla_metrics.task_performance.success_rate import TaskSuccessRate
+        from robometric_frame.task_performance.success_rate import TaskSuccessRate
 
         metric = TaskSuccessRate()
         success = torch.tensor([1, 1, 0, 1])

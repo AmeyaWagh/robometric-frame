@@ -38,7 +38,7 @@ class MemoryUsage(Metric):
         **kwargs: Additional keyword arguments passed to the base Metric class.
 
     Example:
-        >>> from vla_metrics.efficiency import MemoryUsage
+        >>> from robometric_frame.efficiency import MemoryUsage
         >>> import torch
         >>> # Manual tracking
         >>> metric = MemoryUsage()

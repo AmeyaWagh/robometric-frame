@@ -44,4 +44,4 @@ repos:
     hooks:
       - id: interrogate
         args: [--verbose, --fail-under=80, --ignore-init-module, --ignore-init-method]
-        exclude: ^(tests/|examples/)
+        exclude: ^(tests/|examples/|docs/)

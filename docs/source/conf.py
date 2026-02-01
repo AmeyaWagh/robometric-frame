@@ -103,9 +103,30 @@ html_theme_options = {
     "titles_only": False,
 }
 
-html_static_path: list[str] = []  # No static files for now
+html_static_path: list[str] = []
 html_logo = None
 html_favicon = None
+
+
+def setup(app: Any) -> None:
+    """Copy logo to build output during build."""
+    import shutil
+    from pathlib import Path
+
+    def copy_logo(app: Any, exception: Any) -> None:
+        if exception is not None:
+            return
+        # Source: docs/frame-logo.png (relative to project root)
+        src = Path(__file__).parent.parent / "frame-logo.png"
+        # Destination: {outdir}/docs/frame-logo.png
+        dst_dir = Path(app.outdir) / "docs"
+        dst_dir.mkdir(parents=True, exist_ok=True)
+        dst = dst_dir / "frame-logo.png"
+        if src.exists():
+            shutil.copy2(src, dst)
+
+    app.connect("build-finished", copy_logo)
+
 
 # -- Options for LaTeX output ------------------------------------------------
 latex_elements: dict[str, Any] = {

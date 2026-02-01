@@ -1,10 +1,18 @@
-# FRAME: Framework for Robotic Action and Motion Evaluation
+<p align="center">
+  <img src="docs/frame-logo.png" alt="FRAME Logo" width="600">
+</p>
 
-[![CI](https://github.com/ameyawagh/robometric-frame/actions/workflows/ci.yml/badge.svg)](https://github.com/ameyawagh/robometric-frame/actions/workflows/ci.yml)
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+<h1 align="center">FRAME: Framework for Robotic Action and Motion Evaluation</h1>
 
-TorchMetrics-based evaluation metrics for Vision-Language-Action (VLA) models in robotics.
+<p align="center">
+  <a href="https://github.com/ameyawagh/robometric-frame/actions/workflows/ci.yml"><img src="https://github.com/ameyawagh/robometric-frame/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.9+-blue.svg" alt="Python 3.9+"></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+</p>
+
+<p align="center">
+  <em>TorchMetrics-based evaluation metrics for Vision-Language-Action (VLA) models in robotics.</em>
+</p>
 
 ## Overview
 

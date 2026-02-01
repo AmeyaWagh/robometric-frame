@@ -1,7 +1,7 @@
-"""Example usage of ActionAccuracy metric for VLA evaluation.
+"""Example usage of ActionAccuracy metric for robotics policy evaluation.
 
 This example demonstrates how to use the ActionAccuracy metric to evaluate
-action prediction accuracy using MSE, AMSE, and NAMSE in Vision-Language-Action models.
+action prediction accuracy using MSE, AMSE, and NAMSE in robotics policies.
 """
 # pylint: skip-file
 
@@ -112,8 +112,8 @@ def main() -> None:
     print(f"AMSE: {results['amse']:.4f}")
     print(f"NAMSE: {results['namse']:.4f}")
 
-    # Example 5: Realistic VLA evaluation scenario
-    print("\n5. Realistic VLA Evaluation Across Different Tasks")
+    # Example 5: Realistic robotics policy evaluation scenario
+    print("\n5. Realistic robotics Evaluation Across Different Tasks")
     print("-" * 80)
 
     # Define different robotic tasks with varying action dimensions

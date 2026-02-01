@@ -1,4 +1,4 @@
-"""Risk Factor metric for VLA safety evaluation.
+"""Risk Factor metric for robotics policy safety evaluation.
 
 Risk Factor offers comprehensive safety evaluation by integrating proximity
 measurements throughout the route. Calculated as the average of the reciprocal
@@ -20,7 +20,7 @@ from robometric_frame.safety.base import BaseSafetyMetric
 
 
 class RiskFactor(BaseSafetyMetric):
-    r"""Compute Risk Factor for VLA safety evaluation.
+    r"""Compute Risk Factor for robotics policy safety evaluation.
 
     Risk Factor is calculated as:
 

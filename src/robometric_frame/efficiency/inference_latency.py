@@ -1,4 +1,4 @@
-"""Inference Latency metric for VLA model evaluation.
+"""Inference Latency metric for robotics policy evaluation.
 
 Inference Latency measures the time required to generate actions from visual
 observations and language instructions. This metric is crucial for real-time
@@ -18,7 +18,7 @@ from torchmetrics import Metric
 
 
 class InferenceLatency(Metric):
-    r"""Compute Inference Latency for VLA model evaluation.
+    r"""Compute Inference Latency for robotics policy evaluation.
 
     Inference Latency is calculated as:
         IL = t_infer,end - t_infer,start

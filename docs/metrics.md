@@ -1,18 +1,18 @@
-# VLA Evaluation Metrics
+# robotics Evaluation Metrics
 
 ## 1.2 Metrics Categories
 
 ### 1.2.1 Task Performance Metrics
 
 #### Success Rate (SR)
-Success Rate [1] serves as the fundamental metric for VLA evaluation, measuring the percentage of successfully completed tasks. Research shows significant variation in success rates across different VLA models and tasks:
+Success Rate [1] serves as the fundamental metric for robotics evaluation, measuring the percentage of successfully completed tasks. Research shows significant variation in success rates across different robotics policies and tasks:
 
 $$SR = \frac{N_{\text{success}}}{N_{\text{total}}}$$
 
 Current models achieve 12.4% average success on pick-up tasks, 6.0% on move-near tasks, 1.2% on put-on tasks, and 0.5% on put-in tasks. The RT-1-400k model demonstrates the highest performance with 34.4% success on pick-up tasks.
 
 #### Task Completion Rate
-This evaluates the ability to execute multi-step task sequences, revealing critical limitations in current VLA models[1]. Analysis shows that success rates drop significantly between sequential steps, indicating challenges in interpreting complex natural language instructions that require multiple actions.
+This evaluates the ability to execute multi-step task sequences, revealing critical limitations in current robotics policies[1]. Analysis shows that success rates drop significantly between sequential steps, indicating challenges in interpreting complex natural language instructions that require multiple actions.
 
 $$TCR = \frac{N_{\text{completed tasks}}}{N_{\text{task chains}}}$$
 
@@ -52,12 +52,12 @@ $$RTE = \frac{1}{L-\Delta}\sum_{i=1}^{L-\Delta} \|(\mathbf{p}_{i+\Delta} - \math
 ### 1.2.3 Vision-Language Alignment Metrics
 
 #### BLEU Score
-BLEU Score measures n-gram overlap between generated and reference captions, providing quantitative assessment of text generation quality[9]. BLEU-4 specifically evaluates 4-gram overlap, commonly used in image captioning tasks where VLA models must describe observed scenes.
+BLEU Score measures n-gram overlap between generated and reference captions, providing quantitative assessment of text generation quality[9]. BLEU-4 specifically evaluates 4-gram overlap, commonly used in image captioning tasks where robotics policies must describe observed scenes.
 
 $$BLEU_n = BP \cdot \exp\left(\frac{1}{n}\sum_{k=1}^{n} \ln p_k\right)$$
 
 #### CIDEr Score
-CIDEr Score employs consensus-based evaluation, weighting n-grams using TF-IDF to prioritize informative content[10]. This metric proves particularly effective for evaluating descriptive capabilities of VLA models in explaining their reasoning and observations.
+CIDEr Score employs consensus-based evaluation, weighting n-grams using TF-IDF to prioritize informative content[10]. This metric proves particularly effective for evaluating descriptive capabilities of robotics policies in explaining their reasoning and observations.
 
 $$CIDEr = \frac{1}{M}\sum_{m=1}^{M} \frac{\sum_g w_g^{(c)} w_g^{(m)}}{\|\mathbf{w}^{(c)}\|_2 \|\mathbf{w}^{(m)}\|_2}$$
 
@@ -67,12 +67,12 @@ METEOR assesses semantic similarity between generated and reference text, accoun
 $$METEOR = F_{\text{mean}}(1 - \gamma P_{\text{penalty}})$$
 
 #### IoU
-Intersection over Union measures object detection accuracy by evaluating overlap between predicted and ground truth bounding boxes[12]. This metric is fundamental for assessing visual perception capabilities that underpin VLA model performance.
+Intersection over Union measures object detection accuracy by evaluating overlap between predicted and ground truth bounding boxes[12]. This metric is fundamental for assessing visual perception capabilities that underpin robotics policy performance.
 
 $$IoU = \frac{|B_{\text{pred}} \cap B_{\text{gt}}|}{|B_{\text{pred}} \cup B_{\text{gt}}|}$$
 
 #### CLIP Score
-CLIPScore utilizes pre-trained vision-language models to compute similarity between images and text in a shared embedding space. This metric effectively evaluates cross-modal alignment, crucial for VLA models that must bridge visual observations and linguistic instructions[13].
+CLIPScore utilizes pre-trained vision-language models to compute similarity between images and text in a shared embedding space. This metric effectively evaluates cross-modal alignment, crucial for robotics policies that must bridge visual observations and linguistic instructions[13].
 
 $$CLIPScore = \cos(\mathbf{e}_{\text{img}}, \mathbf{e}_{\text{text}})$$
 
@@ -84,7 +84,7 @@ Collision Rate quantifies the frequency of collisions during task execution, ser
 $$CR = \frac{N_{\text{collisions}}}{T_{\text{steps}}}$$
 
 #### Obstacle Proximity
-Obstacle Proximity measures the minimum distance between the robot and environmental obstacles throughout task execution. This metric provides insights into safety margins and risk assessment capabilities of VLA models in cluttered environments[15].
+Obstacle Proximity measures the minimum distance between the robot and environmental obstacles throughout task execution. This metric provides insights into safety margins and risk assessment capabilities of robotics policies in cluttered environments[15].
 
 $$OP = \min_t d_t^{\text{robot→obstacle}}$$
 
@@ -106,7 +106,7 @@ Computation Time evaluates processing requirements per decision cycle[17], infor
 $$CT = \frac{\text{CPU/GPU cycles}}{\text{decision step}}$$
 
 #### Memory Usage
-Memory Usage assesses resource consumption during operation[18], particularly relevant for compact VLA models like SmolVLA-450M designed for consumer hardware deployment. Efficient memory usage enables broader accessibility and real-world deployment scenarios.
+Memory Usage assesses resource consumption during operation[18], particularly relevant for compact robotics policies like Smolrobotics-450M designed for consumer hardware deployment. Efficient memory usage enables broader accessibility and real-world deployment scenarios.
 
 $$MU = \max_t(\text{RAM}_t + \text{VRAM}_t)$$
 

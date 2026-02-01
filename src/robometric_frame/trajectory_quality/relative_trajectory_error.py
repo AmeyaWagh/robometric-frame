@@ -1,4 +1,4 @@
-"""Relative Trajectory Error (RTE) metric for VLA trajectory evaluation.
+"""Relative Trajectory Error (RTE) metric for robotics policy trajectory evaluation.
 
 RTE measures the local accuracy between predicted and reference trajectories by
 comparing relative motion (displacement vectors) over a specified time window.
@@ -21,7 +21,7 @@ from torchmetrics import Metric
 
 
 class RelativeTrajectoryError(Metric):
-    r"""Compute Relative Trajectory Error (RTE) for VLA trajectory evaluation.
+    r"""Compute Relative Trajectory Error (RTE) for robotics policy trajectory evaluation.
 
     RTE is calculated as:
         RTE = (1/(L-Δ)) * Σ(i=1 to L-Δ) \|(p_{i+Δ} - p_i) - (p_{i+Δ}* - p_i*)\|_2

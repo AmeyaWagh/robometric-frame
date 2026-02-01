@@ -1,4 +1,4 @@
-"""Task Performance Metrics for VLA models.
+"""Task Performance Metrics for robotics policies.
 
 This module contains metrics for evaluating task execution performance including:
 - Success Rate (SR)

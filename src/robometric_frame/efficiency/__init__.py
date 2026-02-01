@@ -1,6 +1,6 @@
-"""Efficiency metrics for VLA model evaluation.
+"""Efficiency metrics for robotics policy evaluation.
 
-This module provides metrics for evaluating the computational efficiency of VLA models,
+This module provides metrics for evaluating the computational efficiency of robotics policies,
 including inference latency, computation time, and memory usage.
 """
 

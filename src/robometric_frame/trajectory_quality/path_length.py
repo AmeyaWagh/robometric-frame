@@ -1,4 +1,4 @@
-"""Path Length metric for VLA trajectory evaluation.
+"""Path Length metric for robotics policy trajectory evaluation.
 
 Path Length quantifies the total distance traveled to complete a task, serving as
 a crucial metric for efficiency evaluation.
@@ -17,7 +17,7 @@ from torchmetrics import Metric
 
 
 class PathLength(Metric):
-    r"""Compute Path Length for VLA trajectory evaluation.
+    r"""Compute Path Length for robotics policy trajectory evaluation.
 
     Path Length is calculated as:
         PL = Σ(i=1 to L-1) \|p_{i+1} - p_i\|_2

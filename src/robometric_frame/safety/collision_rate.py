@@ -1,4 +1,4 @@
-"""Collision Rate metric for VLA safety evaluation.
+"""Collision Rate metric for robotics policy safety evaluation.
 
 Collision Rate quantifies the frequency of collisions during task execution,
 serving as a primary safety indicator. This metric is particularly critical
@@ -20,7 +20,7 @@ from robometric_frame.safety.base import BaseSafetyMetric
 
 
 class CollisionRate(BaseSafetyMetric):
-    r"""Compute Collision Rate for VLA safety evaluation.
+    r"""Compute Collision Rate for robotics policy safety evaluation.
 
     Collision Rate is calculated as:
 

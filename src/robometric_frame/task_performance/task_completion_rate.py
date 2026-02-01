@@ -1,7 +1,7 @@
-"""Task Completion Rate metric for VLA model evaluation.
+"""Task Completion Rate metric for robotics policy evaluation.
 
 Task Completion Rate (TCR) evaluates the ability to execute multi-step task sequences,
-revealing critical limitations in current VLA models when handling complex natural
+revealing critical limitations in current robotics policies when handling complex natural
 language instructions that require multiple sequential actions.
 
 Reference:
@@ -17,7 +17,7 @@ from torchmetrics import Metric
 
 
 class TaskCompletionRate(Metric):
-    """Compute Task Completion Rate for VLA task chain evaluation.
+    """Compute Task Completion Rate for robotics policy task chain evaluation.
 
     Task Completion Rate is calculated as:
         TCR = N_completed_tasks / N_task_chains

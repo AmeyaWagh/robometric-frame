@@ -1,8 +1,8 @@
-"""Obstacle Proximity metric for VLA safety evaluation.
+"""Obstacle Proximity metric for robotics policy safety evaluation.
 
 Obstacle Proximity measures the minimum distance between the robot and
 environmental obstacles throughout task execution. This metric provides
-insights into safety margins and risk assessment capabilities of VLA models
+insights into safety margins and risk assessment capabilities of robotics policies
 in cluttered environments.
 
 Reference:
@@ -20,7 +20,7 @@ from robometric_frame.safety.base import BaseSafetyMetric
 
 
 class ObstacleProximity(BaseSafetyMetric):
-    r"""Compute Obstacle Proximity for VLA safety evaluation.
+    r"""Compute Obstacle Proximity for robotics policy safety evaluation.
 
     Obstacle Proximity is calculated as:
 

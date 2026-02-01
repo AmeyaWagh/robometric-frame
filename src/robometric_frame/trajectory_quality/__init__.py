@@ -1,4 +1,4 @@
-"""Trajectory quality metrics for VLA model evaluation.
+"""Trajectory quality metrics for robotics policy evaluation.
 
 This module provides metrics for evaluating the quality of robot trajectories,
 including path length, smoothness, curvature change, and trajectory errors.

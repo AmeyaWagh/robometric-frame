@@ -5,17 +5,18 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "robometric-frame"
 version = "0.1.0"
-description = "FRAME: Framework for Robotic Action and Motion Evaluation - TorchMetrics-based evaluation metrics for Vision-Language-Action (VLA) models in robotics"
+description = "FRAME: Framework for Robotic Action and Motion Evaluation - TorchMetrics-based evaluation metrics for robotics policies and robot learning"
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
 authors = [{ name = "Ameya Wagh", email = "ameyawagh@ieee.org" }]
 keywords = [
     "robotics",
-    "vla",
+    "robot-learning",
     "metrics",
     "evaluation",
-    "vision-language-action",
+    "imitation-learning",
+    "reinforcement-learning",
     "torchmetrics",
 ]
 classifiers = [

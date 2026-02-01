@@ -1,7 +1,7 @@
-"""Success Rate metric for VLA model evaluation.
+"""Success Rate metric for robotics policy evaluation.
 
 Success Rate (SR) is a fundamental metric measuring the percentage of successfully
-completed tasks in VLA evaluation.
+completed tasks in robotics policy evaluation.
 
 Reference:
     A. Brohan et al., "RT-1: Robotics transformer for real-world control at scale,"
@@ -16,7 +16,7 @@ from torchmetrics import Metric
 
 
 class SuccessRate(Metric):
-    """Compute Success Rate for VLA task evaluation.
+    """Compute Success Rate for robotics policy task evaluation.
 
     Success Rate is calculated as:
         SR = N_success / N_total

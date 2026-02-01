@@ -65,7 +65,7 @@ for epoch in range(num_epochs):
 import pytorch_lightning as pl
 from robometric_frame import SuccessRate
 
-class VLAModel(pl.LightningModule):
+class RobotPolicyModel(pl.LightningModule):
     def __init__(self):
         super().__init__()
         self.success_rate = SuccessRate()

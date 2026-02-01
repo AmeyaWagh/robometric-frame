@@ -1,7 +1,7 @@
-"""Memory Usage metric for VLA model evaluation.
+"""Memory Usage metric for robotics policy evaluation.
 
 Memory Usage assesses resource consumption during operation, particularly relevant
-for compact VLA models designed for consumer hardware deployment. Efficient memory
+for compact robotics policies designed for consumer hardware deployment. Efficient memory
 usage enables broader accessibility and real-world deployment scenarios.
 
 Reference:
@@ -17,7 +17,7 @@ from torchmetrics import Metric
 
 
 class MemoryUsage(Metric):
-    r"""Compute Memory Usage for VLA model evaluation.
+    r"""Compute Memory Usage for robotics policy evaluation.
 
     Memory Usage is calculated as:
         MU = max_t(RAM_t + VRAM_t)

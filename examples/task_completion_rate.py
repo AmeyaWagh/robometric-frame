@@ -1,7 +1,7 @@
-"""Example usage of TaskCompletionRate metric for VLA evaluation.
+"""Example usage of TaskCompletionRate metric for robotics policy evaluation.
 
 This example demonstrates how to use the TaskCompletionRate metric to evaluate
-multi-step task chain completion in Vision-Language-Action models.
+multi-step task chain completion in robotics policies.
 """
 # pylint: skip-file
 
@@ -70,8 +70,8 @@ def main() -> None:
     print(f"Chains above threshold: {(scores >= 0.8).sum().item()}/{len(scores)}")
     print(f"Task Completion Rate: {tcr:.2%}")
 
-    # Example 4: Realistic VLA evaluation scenario
-    print("\n4. Realistic VLA Task Chain Evaluation")
+    # Example 4: Realistic robotics policy evaluation scenario
+    print("\n4. Realistic robotics Task Chain Evaluation")
     print("-" * 80)
     metric = TaskCompletionRate()
 

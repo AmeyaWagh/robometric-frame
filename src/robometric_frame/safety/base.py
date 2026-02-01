@@ -1,4 +1,4 @@
-"""Base class for VLA safety metrics.
+"""Base class for robotics policy safety metrics.
 
 Provides common functionality for trajectory validation and distance function
 calling patterns shared across all safety metrics.

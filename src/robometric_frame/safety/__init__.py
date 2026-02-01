@@ -1,6 +1,6 @@
-"""Safety and Robustness metrics for VLA model evaluation.
+"""Safety and Robustness metrics for robotics policy evaluation.
 
-This module provides metrics for evaluating the safety and robustness of VLA models,
+This module provides metrics for evaluating the safety and robustness of robotics policies,
 including collision detection, obstacle proximity, and risk assessment.
 
 All safety metrics use user-defined distance functions to evaluate trajectories against

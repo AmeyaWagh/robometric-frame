@@ -163,7 +163,7 @@ texinfo_documents = [
         "FRAME Documentation",
         author,
         "robometric-frame",
-        "TorchMetrics-based evaluation metrics for VLA models",
+        "TorchMetrics-based evaluation metrics for robotics policies",
         "Miscellaneous",
     ),
 ]

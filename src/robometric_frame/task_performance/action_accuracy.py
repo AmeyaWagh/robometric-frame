@@ -1,4 +1,4 @@
-"""Action Accuracy metrics for VLA model evaluation.
+"""Action Accuracy metrics for robotics policy evaluation.
 
 Action Accuracy measures the precision of predicted actions against ground truth
 trajectories using Mean Squared Error (MSE) and its variations. This provides
@@ -19,7 +19,7 @@ from torchmetrics import Metric
 
 
 class ActionAccuracy(Metric):
-    r"""Compute Action Accuracy metrics (MSE, AMSE, NAMSE) for VLA evaluation.
+    r"""Compute Action Accuracy metrics (MSE, AMSE, NAMSE) for robotics policy evaluation.
 
     This metric computes three related measures of action prediction accuracy:
     - MSE: Mean Squared Error per trajectory

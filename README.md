@@ -11,12 +11,12 @@
 </p>
 
 <p align="center">
-  <em>TorchMetrics-based evaluation metrics for Vision-Language-Action (VLA) models in robotics.</em>
+  <em>TorchMetrics-based evaluation metrics for robotics policies and robot learning models.</em>
 </p>
 
 ## Overview
 
-`robometric-frame` provides a comprehensive suite of evaluation metrics specifically designed for Vision-Language-Action models in robotics. Built on top of [TorchMetrics](https://torchmetrics.readthedocs.io/), it offers:
+`robometric-frame` provides a comprehensive suite of evaluation metrics specifically designed for robotics policies, including learned controllers, imitation learning models, and reinforcement learning agents. Built on top of [TorchMetrics](https://torchmetrics.readthedocs.io/), it offers:
 
 - **Easy Integration**: Drop-in compatibility with PyTorch, PyTorch Lightning, and Hugging Face
 - **Distributed Training**: Native support for multi-GPU/multi-node training
@@ -162,7 +162,7 @@ for epoch in range(num_epochs):
 import pytorch_lightning as pl
 from robometric_frame import SuccessRate
 
-class VLAModel(pl.LightningModule):
+class RobotPolicyModel(pl.LightningModule):
     def __init__(self):
         super().__init__()
         self.val_success_rate = SuccessRate()
@@ -342,4 +342,4 @@ See [docs/metrics.md](docs/metrics.md) for comprehensive references to research 
 ## Acknowledgments
 
 - Built on [TorchMetrics](https://torchmetrics.readthedocs.io/)
-- Inspired by VLA research including RT-1, RT-2, and other robotics transformers
+- Inspired by robotics research including RT-1, RT-2, and other robot learning methods

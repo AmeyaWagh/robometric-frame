@@ -1,4 +1,4 @@
-"""Curvature Change metric for VLA trajectory evaluation.
+"""Curvature Change metric for robotics policy trajectory evaluation.
 
 Curvature Change measures trajectory smoothness while accounting for robot
 orientation, particularly valuable for car-like mobile robots where curvature
@@ -19,7 +19,7 @@ from torchmetrics import Metric
 
 
 class CurvatureChange(Metric):
-    r"""Compute Curvature Change for VLA trajectory evaluation.
+    r"""Compute Curvature Change for robotics policy trajectory evaluation.
 
     Curvature Change is calculated as:
         CC = (1/(L-2)) * Σ(i=1 to L-2) \|κ_{i+1} - κ_i\|

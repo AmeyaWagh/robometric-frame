@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This repository provides a TorchMetrics-based library for evaluating Vision-Language-Action (VLA) models in robotics. It includes both comprehensive metric documentation and a Python implementation compatible with PyTorch, PyTorch Lightning, and Hugging Face Transformers.
+This repository provides a TorchMetrics-based library for evaluating robotics policies and robot learning models. It includes both comprehensive metric documentation and a Python implementation compatible with PyTorch, PyTorch Lightning, and Hugging Face Transformers.
 
 ## Repository Structure
 
@@ -28,7 +28,7 @@ robometric-frame/
 │   ├── distributed_training.py  # Distributed training examples
 │   └── README.md                # Examples documentation
 ├── docs/                         # Documentation
-│   └── metrics.md               # Comprehensive VLA metrics reference
+│   └── metrics.md               # Comprehensive robotics metrics reference
 ├── .pre-commit-config.yaml      # Pre-commit hooks configuration
 ├── pyproject.toml               # Project configuration and dependencies
 ├── README.md                    # Main documentation
@@ -274,7 +274,7 @@ metric.reset()  # For next epoch
 
 ### PyTorch Lightning
 ```python
-class VLAModel(pl.LightningModule):
+class RobotPolicyModel(pl.LightningModule):
     def __init__(self):
         self.val_sr = SuccessRate()
 

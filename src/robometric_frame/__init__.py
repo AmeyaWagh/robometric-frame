@@ -1,9 +1,8 @@
 """FRAME: Framework for Robotic Action and Motion Evaluation.
 
-TorchMetrics-based evaluation metrics for Vision-Language-Action models.
-This library provides comprehensive evaluation metrics for VLA models in robotics,
-including task performance, trajectory quality, vision-language alignment, safety,
-and efficiency metrics.
+TorchMetrics-based evaluation metrics for robotics policies.
+This library provides comprehensive evaluation metrics for robot learning,
+including task performance, trajectory quality, safety, and efficiency metrics.
 """
 
 from importlib.metadata import version

@@ -126,7 +126,7 @@ pytest tests/test_success_rate.py::TestSuccessRate::test_binary_success_perfect 
 
 ### Code Quality
 
-**Git Hooks**: Pre-commit hooks automatically run before each commit (see docs/SETUP_HOOKS.md for details).
+**Git Hooks**: Pre-commit hooks automatically run before each commit.
 
 ```bash
 # Run all pre-commit hooks manually

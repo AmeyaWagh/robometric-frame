@@ -76,6 +76,8 @@ myst_enable_extensions = [
     "colon_fence",
     "deflist",
     "html_image",
+    "dollarmath",
+    "amsmath",
 ]
 
 # Suppress warnings for missing cross-references in included markdown files

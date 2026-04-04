@@ -23,11 +23,15 @@ class PathSmoothness(Metric):
     r"""Compute Path Smoothness for robotics policy trajectory evaluation.
 
     Path Smoothness is calculated as:
-        PS = (1/PL) * Σ(i=1 to L-2) \|(p_{i+2} - p_{i+1}) - (p_{i+1} - p_i)\|_2
 
-    where p_i are trajectory points in D-dimensional space, L is the length of
-    the trajectory, and PL is the path length. This metric measures the rate of
-    change in trajectory direction, with lower values indicating smoother paths.
+    .. math::
+
+        PS = \frac{1}{PL} \sum_{i=1}^{L-2} \|(\mathbf{p}_{i+2} - \mathbf{p}_{i+1}) - (\mathbf{p}_{i+1} - \mathbf{p}_i)\|_2
+
+    where :math:`\mathbf{p}_i` are trajectory points in D-dimensional space,
+    :math:`L` is the length of the trajectory, and :math:`PL` is the path
+    length. This metric measures the rate of change in trajectory direction,
+    with lower values indicating smoother paths.
 
     The metric calculates the difference between consecutive displacement vectors,
     effectively measuring the second derivative (acceleration) of the path. It is

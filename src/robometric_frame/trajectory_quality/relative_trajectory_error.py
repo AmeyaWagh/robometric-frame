@@ -24,11 +24,16 @@ class RelativeTrajectoryError(Metric):
     r"""Compute Relative Trajectory Error (RTE) for robotics policy trajectory evaluation.
 
     RTE is calculated as:
-        RTE = (1/(L-Δ)) * Σ(i=1 to L-Δ) \|(p_{i+Δ} - p_i) - (p_{i+Δ}* - p_i*)\|_2
 
-    where p_i are predicted trajectory points, p_i* are reference (ground truth)
-    trajectory points, L is the trajectory length, and Δ (delta) is the step size
-    for computing relative motion.
+    .. math::
+
+        RTE = \frac{1}{L-\Delta} \sum_{i=1}^{L-\Delta}
+        \|(\mathbf{p}_{i+\Delta} - \mathbf{p}_i) - (\mathbf{p}_{i+\Delta}^* - \mathbf{p}_i^*)\|_2
+
+    where :math:`\mathbf{p}_i` are predicted trajectory points,
+    :math:`\mathbf{p}_i^*` are reference (ground truth) trajectory points,
+    :math:`L` is the trajectory length, and :math:`\Delta` (delta) is the step
+    size for computing relative motion.
 
     RTE assesses local accuracy by comparing displacement vectors between the
     predicted and reference trajectories. Unlike ATE which measures global

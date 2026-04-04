@@ -22,14 +22,17 @@ class CurvatureChange(Metric):
     r"""Compute Curvature Change for robotics policy trajectory evaluation.
 
     Curvature Change is calculated as:
-        CC = (1/(L-2)) * Σ(i=1 to L-2) \|κ_{i+1} - κ_i\|
 
-    where κ_i = (θ_{i+1} - θ_i) / \|p_{i+1} - p_i\|_2
+    .. math::
 
-    Here, p_i are trajectory positions, θ_i are orientations (heading angles),
-    and κ_i is the curvature at segment i. Unlike path smoothness, this metric
-    incorporates angular velocity and is particularly useful for evaluating
-    car-like mobile robots where curvature relates to turning radius constraints.
+        CC = \frac{1}{L-2} \sum_{i=1}^{L-2} |\kappa_{i+1} - \kappa_i|, \quad
+        \kappa_i = \frac{\theta_{i+1} - \theta_i}{\|\mathbf{p}_{i+1} - \mathbf{p}_i\|_2}
+
+    where :math:`\mathbf{p}_i` are trajectory positions, :math:`\theta_i` are
+    orientations (heading angles), and :math:`\kappa_i` is the curvature at
+    segment :math:`i`. Unlike path smoothness, this metric incorporates angular
+    velocity and is particularly useful for evaluating car-like mobile robots
+    where curvature relates to turning radius constraints.
 
     This metric accumulates curvature change values across multiple trajectories
     and returns the average when compute() is called.

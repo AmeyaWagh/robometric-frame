@@ -24,12 +24,16 @@ class AbsoluteTrajectoryError(Metric):
     r"""Compute Absolute Trajectory Error (ATE) for robotics policy trajectory evaluation.
 
     ATE is calculated as:
-        ATE = (1/L) * Σ(i=1 to L) \|p_i - p_i*\|_2
 
-    where p_i are predicted trajectory points, p_i* are reference (ground truth)
-    trajectory points, and L is the trajectory length. ATE evaluates global
-    consistency by measuring the average Euclidean distance between corresponding
-    points in predicted and reference trajectories.
+    .. math::
+
+        ATE = \frac{1}{L} \sum_{i=1}^{L} \|\mathbf{p}_i - \mathbf{p}_i^*\|_2
+
+    where :math:`\mathbf{p}_i` are predicted trajectory points,
+    :math:`\mathbf{p}_i^*` are reference (ground truth) trajectory points, and
+    :math:`L` is the trajectory length. ATE evaluates global consistency by
+    measuring the average Euclidean distance between corresponding points in
+    predicted and reference trajectories.
 
     This metric is critical for navigation and manipulation tasks requiring precise
     positioning. Lower ATE values indicate better trajectory tracking performance.

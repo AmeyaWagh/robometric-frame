@@ -20,11 +20,14 @@ class PathLength(Metric):
     r"""Compute Path Length for robotics policy trajectory evaluation.
 
     Path Length is calculated as:
-        PL = Σ(i=1 to L-1) \|p_{i+1} - p_i\|_2
 
-    where p_i are trajectory points in D-dimensional space and L is the length
-    of the trajectory. Shorter paths generally indicate more efficient task
-    execution.
+    .. math::
+
+        PL = \sum_{i=1}^{L-1} \|\mathbf{p}_{i+1} - \mathbf{p}_i\|_2
+
+    where :math:`\mathbf{p}_i` are trajectory points in D-dimensional space and
+    :math:`L` is the length of the trajectory. Shorter paths generally indicate
+    more efficient task execution.
 
     This metric accumulates path lengths across multiple trajectories and returns
     the average path length when compute() is called.

@@ -22,21 +22,27 @@ class ActionAccuracy(Metric):
     r"""Compute Action Accuracy metrics (MSE, AMSE, NAMSE) for robotics policy evaluation.
 
     This metric computes three related measures of action prediction accuracy:
+
     - MSE: Mean Squared Error per trajectory
     - AMSE: Average MSE across multiple trajectories
     - NAMSE: Normalized AMSE (scaled by action variance)
 
-    Formulas:
-        MSE = (1/T) * sum_{t=1}^{T} \|a_t - â_t\|_2^2
-        AMSE = (1/K) * sum_{k=1}^{K} MSE_k
-        NAMSE = AMSE / σ²_action
+    .. math::
 
-    where:
-        - a_t is the ground truth action at timestep t
-        - â_t is the predicted action at timestep t
-        - T is the number of timesteps in a trajectory
-        - K is the number of trajectories
-        - σ²_action is the variance of ground truth actions
+        MSE = \frac{1}{T} \sum_{t=1}^{T} \|\mathbf{a}_t - \hat{\mathbf{a}}_t\|_2^2
+
+    .. math::
+
+        AMSE = \frac{1}{K} \sum_{k=1}^{K} MSE_k
+
+    .. math::
+
+        NAMSE = \frac{AMSE}{\sigma^2_{\text{action}}}
+
+    where :math:`\mathbf{a}_t` is the ground truth action at timestep :math:`t`,
+    :math:`\hat{\mathbf{a}}_t` is the predicted action, :math:`T` is the number of
+    timesteps in a trajectory, :math:`K` is the number of trajectories, and
+    :math:`\sigma^2_{\text{action}}` is the variance of ground truth actions.
 
     Args:
         normalize: Whether to compute NAMSE. If True, action variance is computed

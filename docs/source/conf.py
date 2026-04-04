@@ -95,6 +95,21 @@ source_suffix = {
 # Exclude patterns
 exclude_patterns: list[str] = []
 
+# MathJax configuration
+# Pin to MathJax v3: myst-parser's update_mathjax uses mathjax3_config to set
+# processHtmlClass, allowing math nodes inside mathjax_ignore sections to render.
+# MathJax v4 changed the skipHtmlClass/processHtmlClass interaction, breaking this.
+mathjax_path = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+mathjax3_config = {
+    "tex": {
+        "inlineMath": [["\\(", "\\)"]],
+        "displayMath": [["\\[", "\\]"]],
+    },
+    "options": {
+        "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area",
+    },
+}
+
 # -- Options for HTML output -------------------------------------------------
 html_theme = "sphinx_rtd_theme"
 html_theme_options = {

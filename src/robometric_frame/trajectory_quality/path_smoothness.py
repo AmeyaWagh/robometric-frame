@@ -26,7 +26,8 @@ class PathSmoothness(Metric):
 
     .. math::
 
-        PS = \frac{1}{PL} \sum_{i=1}^{L-2} \|(\mathbf{p}_{i+2} - \mathbf{p}_{i+1}) - (\mathbf{p}_{i+1} - \mathbf{p}_i)\|_2
+        PS = \frac{1}{PL} \sum_{i=1}^{L-2}
+        \|(\mathbf{p}_{i+2} - \mathbf{p}_{i+1}) - (\mathbf{p}_{i+1} - \mathbf{p}_i)\|_2
 
     where :math:`\mathbf{p}_i` are trajectory points in D-dimensional space,
     :math:`L` is the length of the trajectory, and :math:`PL` is the path

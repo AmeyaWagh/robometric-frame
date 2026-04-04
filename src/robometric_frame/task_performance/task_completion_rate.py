@@ -17,13 +17,17 @@ from torchmetrics import Metric
 
 
 class TaskCompletionRate(Metric):
-    """Compute Task Completion Rate for robotics policy task chain evaluation.
+    r"""Compute Task Completion Rate for robotics policy task chain evaluation.
 
     Task Completion Rate is calculated as:
-        TCR = N_completed_tasks / N_task_chains
 
-    where N_completed_tasks is the number of successfully completed task chains and
-    N_task_chains is the total number of task chains attempted.
+    .. math::
+
+        TCR = \frac{N_{\text{completed tasks}}}{N_{\text{task chains}}}
+
+    where :math:`N_{\text{completed tasks}}` is the number of successfully
+    completed task chains and :math:`N_{\text{task chains}}` is the total
+    number of task chains attempted.
 
     This metric evaluates multi-step task sequences, measuring success rates across
     sequential steps. Research shows that success rates drop significantly between

@@ -16,13 +16,16 @@ from torchmetrics import Metric
 
 
 class SuccessRate(Metric):
-    """Compute Success Rate for robotics policy task evaluation.
+    r"""Compute Success Rate for robotics policy task evaluation.
 
     Success Rate is calculated as:
-        SR = N_success / N_total
 
-    where N_success is the number of successfully completed tasks and N_total is
-    the total number of tasks attempted.
+    .. math::
+
+        SR = \frac{N_{\text{success}}}{N_{\text{total}}}
+
+    where :math:`N_{\text{success}}` is the number of successfully completed
+    tasks and :math:`N_{\text{total}}` is the total number of tasks attempted.
 
     This metric supports both binary success indicators and continuous success scores
     with an optional threshold.

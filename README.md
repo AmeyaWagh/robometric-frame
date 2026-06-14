@@ -7,6 +7,7 @@
 <p align="center">
   <a href="https://github.com/ameyawagh/robometric-frame/actions/workflows/ci.yml"><img src="https://github.com/ameyawagh/robometric-frame/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://codecov.io/gh/ameyawagh/robometric-frame"><img src="https://codecov.io/gh/ameyawagh/robometric-frame/branch/main/graph/badge.svg" alt="Coverage"></a>
+  <a href="https://doi.org/10.31224/7331"><img src="https://img.shields.io/badge/preprint-engrXiv-blue.svg" alt="Preprint"></a>
   <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.9+-blue.svg" alt="Python 3.9+"></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
 </p>
@@ -328,11 +329,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 If you use this library in your research, please cite:
 
 ```bibtex
-@software{robometric_frame,
+@article{wagh2026frame,
   title = {FRAME: Framework for Robotic Action and Motion Evaluation},
-  author = {Wagh, Ameya},
-  year = {2025},
-  url = {https://github.com/ameyawagh/robometric-frame}
+  author = {Wagh, Ameya and Rudrasamudram, Vishnu},
+  year = {2026},
+  doi = {10.31224/7331},
+  url = {https://engrxiv.org/preprint/view/7331/version/9494},
+  publisher = {Engineering Archive},
+  note = {Preprint}
 }
 ```
 

@@ -1,0 +1,38 @@
+cff-version: 1.2.0
+message: "If you use this software in your research, please cite it using the following metadata."
+type: software
+title: "FRAME: Framework for Robotic Action and Motion Evaluation"
+authors:
+  - family-names: Wagh
+    given-names: Ameya
+    email: ameyawagh@ieee.org
+  - family-names: Rudrasamudram
+    given-names: Vishnu
+    email: vishnurs@ieee.org
+repository-code: "https://github.com/ameyawagh/robometric-frame"
+license: MIT
+version: 0.1.0
+date-released: "2026-06-12"
+keywords:
+  - robotics
+  - robot-learning
+  - metrics
+  - evaluation
+  - torchmetrics
+  - imitation-learning
+  - reinforcement-learning
+preferred-citation:
+  type: article
+  title: "FRAME: Framework for Robotic Action and Motion Evaluation"
+  authors:
+    - family-names: Wagh
+      given-names: Ameya
+      email: ameyawagh@ieee.org
+    - family-names: Rudrasamudram
+      given-names: Vishnu
+      email: vishnurs@ieee.org
+  year: 2026
+  doi: 10.31224/7331
+  url: "https://engrxiv.org/preprint/view/7331/version/9494"
+  publisher: Engineering Archive
+  notes: Preprint

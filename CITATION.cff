@@ -22,7 +22,7 @@ keywords:
   - imitation-learning
   - reinforcement-learning
 preferred-citation:
-  type: article
+  type: conference-paper
   title: "FRAME: Framework for Robotic Action and Motion Evaluation"
   authors:
     - family-names: Wagh
@@ -32,7 +32,5 @@ preferred-citation:
       given-names: Vishnu
       email: vishnurs@ieee.org
   year: 2026
-  doi: 10.31224/7331
-  url: "https://engrxiv.org/preprint/view/7331/version/9494"
-  publisher: Engineering Archive
-  notes: Preprint
+  collection-title: "ICML 2026 Workshop on Combining Theory and Benchmarks: Towards A Virtuous Cycle to Understand and Guarantee Foundation Model Performance"
+  url: "https://openreview.net/forum?id=LS7IoE1ro5"

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "robometric-frame"
-version = "0.1.0"
+version = "0.2.0"
 description = "FRAME: Framework for Robotic Action and Motion Evaluation - TorchMetrics-based evaluation metrics for robotics policies and robot learning"
 readme = "README.md"
 requires-python = ">=3.9"

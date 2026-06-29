@@ -149,11 +149,11 @@ class DTWBase(Metric):
 
         ref_length = reference.shape[0]
         if ref_length == 1:
-            d = torch.norm(predicted[0] - reference[0], p=2).item()
+            d = float(torch.norm(predicted[0] - reference[0], p=2).item())
             return d if d != 0 else 1.0
 
         path_length = DTWBase._compute_path_length(reference)
-        d = (path_length / (ref_length - 1)).item()
+        d = float((path_length / (ref_length - 1)).item())
         return d if d != 0 else 1.0
 
 

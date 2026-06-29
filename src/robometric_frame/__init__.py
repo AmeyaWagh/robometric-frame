@@ -11,7 +11,7 @@ try:
     __version__ = version("robometric-frame")
 except Exception:
     # Fallback for development/editable installs
-    __version__ = "0.1.0"
+    __version__ = "0.2.0"
 
 from robometric_frame.efficiency import InferenceLatency, MemoryUsage
 from robometric_frame.safety import CollisionRate, ObstacleProximity, RiskFactor

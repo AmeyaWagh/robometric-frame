@@ -7,6 +7,7 @@
 <p align="center">
   <a href="https://github.com/ameyawagh/robometric-frame/actions/workflows/ci.yml"><img src="https://github.com/ameyawagh/robometric-frame/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://codecov.io/gh/ameyawagh/robometric-frame"><img src="https://codecov.io/gh/ameyawagh/robometric-frame/branch/main/graph/badge.svg" alt="Coverage"></a>
+  <a href="https://pypi.org/project/robometric-frame/"><img src="https://img.shields.io/pypi/v/robometric-frame.svg" alt="PyPI"></a>
   <a href="https://openreview.net/forum?id=LS7IoE1ro5"><img src="https://img.shields.io/badge/ICML%202026%20Workshop-OpenReview-blue.svg" alt="ICML 2026 Workshop"></a>
   <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.9+-blue.svg" alt="Python 3.9+"></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
@@ -29,14 +30,21 @@
 ## Installation
 
 ```bash
-# Install from source
+# Using uv (recommended)
+uv add robometric-frame
+
+# Or using pip
+pip install robometric-frame
+```
+
+### Install from Source
+
+```bash
 git clone https://github.com/ameyawagh/robometric-frame.git
 cd robometric-frame
 
-# Using uv (recommended - faster)
-uv venv
-source .venv/bin/activate  # On macOS/Linux
-# .venv\Scripts\activate   # On Windows
+# Using uv
+uv venv && source .venv/bin/activate
 uv pip install -e .
 
 # Or using pip

@@ -1,0 +1,28 @@
+name: Pages Build Check
+
+# Reproduces GitHub's automatic Jekyll-based "pages build and deployment"
+# workflow on every push/PR, since that workflow itself only runs against
+# whichever branch is configured as the Pages source (e.g. main) and
+# wouldn't otherwise be exercised by feature branches or PRs.
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  jekyll-build:
+    name: Jekyll Build (Liquid/Markdown check)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      - name: Build site with Jekyll
+        run: bundle exec jekyll build --destination /tmp/_site

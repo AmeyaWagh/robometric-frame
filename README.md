@@ -328,6 +328,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you use this library in your research, please cite:
 
+{% raw %}
 ```bibtex
 @inproceedings{wagh2026frame,
   title = {{FRAME}: Framework for Robotic Action and Motion Evaluation},
@@ -337,6 +338,7 @@ If you use this library in your research, please cite:
   url = {https://openreview.net/forum?id=LS7IoE1ro5}
 }
 ```
+{% endraw %}
 
 ## References
 

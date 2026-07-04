@@ -26,17 +26,18 @@ class PathSmoothness(Metric):
 
     .. math::
 
-        PS = \frac{1}{PL} \sum_{i=1}^{L-2}
+        PS = \frac{1}{L-2} \sum_{i=1}^{L-2}
         \|(\mathbf{p}_{i+2} - \mathbf{p}_{i+1}) - (\mathbf{p}_{i+1} - \mathbf{p}_i)\|_2
 
     where :math:`\mathbf{p}_i` are trajectory points in D-dimensional space,
-    :math:`L` is the length of the trajectory, and :math:`PL` is the path
-    length. This metric measures the rate of change in trajectory direction,
+    :math:`L` is the length of the trajectory, and :math:`L-2` is the number
+    of direction-change samples. This metric measures the rate of change in trajectory direction,
     with lower values indicating smoother paths.
 
     The metric calculates the difference between consecutive displacement vectors,
     effectively measuring the second derivative (acceleration) of the path. It is
-    normalized by the total path length to make it scale-invariant.
+    normalized by the number of direction-change samples (L-2) to decouple
+    smoothness from path length / trajectory scale.
 
     This metric accumulates smoothness values across multiple trajectories and
     returns the average path smoothness when compute() is called.
@@ -179,16 +180,10 @@ class PathSmoothness(Metric):
         # Shape: (...)
         total_change = change_magnitudes.sum(dim=-1)
 
-        # Calculate path lengths for normalization
-        # Shape: (..., L-1)
-        segment_lengths = torch.norm(displacements, p=2, dim=-1)
-        # Shape: (...)
-        path_lengths = segment_lengths.sum(dim=-1)
-
-        # Normalize by path length to get smoothness metric
-        # Add epsilon to avoid division by zero for degenerate trajectories
-        eps = torch.finfo(trajectory.dtype).eps
-        smoothness_values = total_change / (path_lengths + eps)
+        # Normalize by number of direction-change samples (L-2)
+        # This decouples smoothness from path length / trajectory scale
+        num_direction_changes = num_points - 2
+        smoothness_values = total_change / num_direction_changes
 
         # Count total number of trajectories (product of all batch dimensions)
         num_trajectories = smoothness_values.numel()

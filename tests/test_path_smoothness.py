@@ -37,9 +37,11 @@ class TestPathSmoothness:
         trajectory = torch.tensor([[0.0, 0.0], [1.0, 0.0], [2.0, 0.0], [2.0, 1.0]])
         metric.update(trajectory)
         result = metric.compute()
-        # Path length = 3.0, direction change magnitude = sqrt(2)
-        # Smoothness = sqrt(2) / 3.0
-        expected = torch.sqrt(torch.tensor(2.0)) / 3.0
+        # L=4 points, L-2=2 direction-change samples
+        # displacements: [1,0], [1,0], [0,1]
+        # direction_changes: [0,0], [-1,1] -> magnitudes: 0, sqrt(2)
+        # total_change = sqrt(2), PS = sqrt(2) / 2
+        expected = torch.sqrt(torch.tensor(2.0)) / 2.0
         assert torch.isclose(result, expected, rtol=1e-5)
 
     def test_zigzag_path(self) -> None:
@@ -49,8 +51,11 @@ class TestPathSmoothness:
         trajectory = torch.tensor([[0.0, 0.0], [1.0, 1.0], [2.0, 0.0], [3.0, 1.0]])
         metric.update(trajectory)
         result = metric.compute()
-        # Should have high smoothness due to multiple direction changes
-        assert result > 0.5  # Non-trivial smoothness value
+        # displacements: [1,1], [1,-1], [1,1]
+        # direction_changes: [0,-2], [0,2] -> magnitudes: 2, 2
+        # total_change = 4.0, L-2 = 2, PS = 2.0
+        expected = torch.tensor(4.0 / 2.0)
+        assert torch.isclose(result, expected, rtol=1e-5)
 
     def test_smooth_curve_approximation(self) -> None:
         """Test path smoothness for a smooth curve approximation."""
@@ -255,8 +260,11 @@ class TestPathSmoothness:
         trajectory = torch.tensor([[0.0, 0.0], [1.0, 0.0], [1.0, 1.0], [0.0, 1.0], [0.0, 0.0]])
         metric.update(trajectory)
         result = metric.compute()
-        # Should have significant smoothness due to 90-degree turns
-        assert result > 0.2
+        # displacements: [1,0], [0,1], [-1,0], [0,-1]
+        # direction_changes: [-1,1], [-1,-1], [1,-1] -> magnitudes: sqrt(2), sqrt(2), sqrt(2)
+        # total_change = 3*sqrt(2), L-2 = 3, PS = sqrt(2)
+        expected = torch.sqrt(torch.tensor(2.0))
+        assert torch.isclose(result, expected, rtol=1e-5)
 
 
 class TestPathSmoothnessBatched:

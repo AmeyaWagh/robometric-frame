@@ -148,6 +148,55 @@ result = metric.compute()  # Result is on GPU
 
 ## Integration Examples
 
+### Comparing Policies
+
+Install the optional plotting dependency to compare policies across metrics:
+
+```bash
+pip install "robometric-frame[visualization]"
+```
+
+Normalization requires an explicit direction for every metric. Missing values
+remain missing, and explicit bounds make charts comparable across experiments.
+
+```python
+import numpy as np
+from robometric_frame.visualization import (
+    normalize_metrics,
+    pareto_chart,
+    radar_chart,
+)
+
+# Rows are policies; columns are success rate, latency, and collision rate.
+results = np.array([
+    [0.82, 120.0, 0.03],
+    [0.76, 80.0, 0.01],
+])
+directions = [True, False, False]
+bounds = [(0.0, 1.0), (50.0, 200.0), (0.0, 0.10)]
+
+normalized = normalize_metrics(results, directions, bounds=bounds, clip=True)
+fig, ax = radar_chart(
+    normalized,
+    ["Success rate", "Latency", "Collision rate"],
+    series_names=["Policy A", "Policy B"],
+)
+fig.savefig("policy-radar.png", bbox_inches="tight")
+
+# Pareto charts accept raw values and can display dominated hypervolume.
+fig, ax = pareto_chart(
+    results[:, :2],
+    ["Success rate", "Latency (ms)"],
+    [True, False],
+    reference_point=[0.0, 200.0],
+    labels=["Policy A", "Policy B"],
+)
+fig.savefig("policy-pareto.png", bbox_inches="tight")
+```
+
+The lower-level `pareto_front` and `pareto_hypervolume` functions are available
+without Matplotlib and work with any number of objectives.
+
 ### PyTorch Training Loop
 
 ```python

@@ -26,6 +26,13 @@ from robometric_frame.trajectory_quality import (
     RelativeTrajectoryError,
     SuccessWeightedDTW,
 )
+from robometric_frame.visualization import (
+    normalize_metrics,
+    pareto_chart,
+    pareto_front,
+    pareto_hypervolume,
+    radar_chart,
+)
 
 __all__ = [
     "AbsoluteTrajectoryError",
@@ -37,9 +44,14 @@ __all__ = [
     "InferenceLatency",
     "MemoryUsage",
     "NormalizedDTW",
+    "normalize_metrics",
     "ObstacleProximity",
     "PathLength",
     "PathSmoothness",
+    "pareto_chart",
+    "pareto_front",
+    "pareto_hypervolume",
+    "radar_chart",
     "RelativeTrajectoryError",
     "RiskFactor",
     "SuccessRate",

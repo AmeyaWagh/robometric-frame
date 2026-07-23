@@ -29,6 +29,7 @@ API Reference
    robometric_frame.trajectory_quality
    robometric_frame.safety
    robometric_frame.efficiency
+   robometric_frame.visualization
 
 Development & Contributing
 ===========================

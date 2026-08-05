@@ -33,9 +33,9 @@ Path Length quantifies the total distance traveled to complete a task[4], servin
 $$PL = \sum_{i=1}^{L-1} \|\mathbf{p}_{i+1} - \mathbf{p}_i\|_2$$
 
 #### Path Smoothness
-Path Smoothness[2] evaluates the rate of change in trajectory direction, detecting oscillations that may arise from velocity changes or directional adjustments[5]. The metric is calculated as the absolute distance between displacement vectors in subsequent trajectory points, normalized by total path length. Smooth trajectories are essential for safe robot operation and reduced mechanical wear.
+Path Smoothness[2] evaluates the rate of change in trajectory direction, detecting oscillations that may arise from velocity changes or directional adjustments[5]. The metric is calculated as the absolute distance between displacement vectors in subsequent trajectory points, normalized by the number of direction-change samples (L-2). Smooth trajectories are essential for safe robot operation and reduced mechanical wear.
 
-$$PS = \frac{1}{PL}\sum_{i=1}^{L-2} \|(\mathbf{p}_{i+2} - \mathbf{p}_{i+1}) - (\mathbf{p}_{i+1} - \mathbf{p}_i)\|_2$$
+$$PS = \frac{1}{L-2}\sum_{i=1}^{L-2} \|(\mathbf{p}_{i+2} - \mathbf{p}_{i+1}) - (\mathbf{p}_{i+1} - \mathbf{p}_i)\|_2$$
 
 #### Curvature Change
 Curvature Change[6] provides specialized evaluation for mobile robots, measuring trajectory smoothness while accounting for robot orientation. This metric proves particularly valuable for car-like mobile robots where curvature directly relates to turning radius constraints. Unlike path smoothness, curvature change incorporates angular velocity, providing more comprehensive trajectory assessment.

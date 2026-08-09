@@ -65,6 +65,7 @@ for epoch in range(num_epochs):
 import pytorch_lightning as pl
 from robometric_frame import SuccessRate
 
+
 class RobotPolicyModel(pl.LightningModule):
     def __init__(self):
         super().__init__()
@@ -88,6 +89,7 @@ class RobotPolicyModel(pl.LightningModule):
 from transformers import Trainer
 from robometric_frame import SuccessRate
 
+
 def compute_metrics(eval_pred):
     predictions, labels = eval_pred
     success = evaluate_task_success(predictions, labels)
@@ -95,9 +97,8 @@ def compute_metrics(eval_pred):
     metric = SuccessRate()
     metric.update(torch.tensor(success))
 
-    return {
-        "success_rate": metric.compute().item()
-    }
+    return {"success_rate": metric.compute().item()}
+
 
 trainer = Trainer(
     model=model,

@@ -44,4 +44,14 @@ repos:
     hooks:
       - id: interrogate
         args: [--verbose, --fail-under=80, --ignore-init-module, --ignore-init-method]
-        exclude: ^(tests/|examples/|docs/)
+        exclude: ^(tests/|examples/|docs/|scripts/)
+
+  # Version sync check (pyproject.toml, __init__.py, CHANGELOG.md)
+  - repo: local
+    hooks:
+      - id: check-version-sync
+        name: Check version sync
+        entry: python3 scripts/check_version_sync.py
+        language: system
+        files: ^(pyproject\.toml|src/robometric_frame/__init__\.py|CHANGELOG\.md)$
+        pass_filenames: false

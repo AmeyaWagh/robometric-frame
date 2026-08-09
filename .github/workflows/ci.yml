@@ -45,6 +45,9 @@ jobs:
         source .venv/bin/activate
         mypy src/ --exclude '.venv'
 
+    - name: Check version sync across pyproject.toml, __init__.py, CHANGELOG.md
+      run: python scripts/check_version_sync.py
+
   test:
     name: Test Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest

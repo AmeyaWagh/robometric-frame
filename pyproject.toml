@@ -125,4 +125,4 @@ ignore-init-method = true
 ignore-init-module = true
 fail-under = 80
 verbose = 1
-exclude = ["tests", "examples", "docs"]
+exclude = ["tests", "examples", "docs", "scripts"]
